@@ -29,11 +29,8 @@ const userSchema = new mongoose.Schema({
         enum:['student','teacher','admin'],
         default:'student'
     },
-    feature:{
-        type:String,
-        enum:['basic','medium','premium'],
-        default:'basic'
-    }
+    premium:false,
+    propremium:false
 
 })
 const userModel = mongoose.model('users',userSchema)
