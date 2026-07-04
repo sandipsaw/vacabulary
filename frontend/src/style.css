@@ -1,0 +1,395 @@
+:root {
+  font-family: Inter, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #0f172a;
+  background: #f8fafc;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+  color: #0f172a;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.page-shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  position: sticky;
+  top: 16px;
+  backdrop-filter: blur(16px);
+  z-index: 10;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #4338ca;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-links a,
+.nav-cta {
+  color: #334155;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-cta:hover {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.nav-cta {
+  background: #4338ca;
+  color: #fff;
+}
+
+.hero-section {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 24px;
+  padding: 56px 0 40px;
+  align-items: center;
+}
+
+.hero-copy h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  margin: 10px 0 16px;
+  line-height: 1.1;
+}
+
+.hero-text,
+.section-title p,
+.info-card p,
+.feature-card p,
+.word-card p,
+.testimonial-card,
+.cta-banner p,
+.form-card p,
+.stored-word-card p {
+  color: #475569;
+}
+
+.eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6366f1;
+  margin-bottom: 6px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #4338ca, #6366f1);
+  color: #fff;
+}
+
+.btn-secondary,
+.btn-tertiary {
+  background: #fff;
+  color: #4338ca;
+  border: 1px solid #dbeafe;
+}
+
+.hero-card,
+.info-card,
+.feature-card,
+.word-card,
+.testimonial-card,
+.form-card,
+.sidebar-card,
+.challenge-banner,
+.cta-banner {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.hero-card {
+  padding: 24px;
+}
+
+.search-panel {
+  display: flex;
+  gap: 12px;
+  padding: 20px 0 10px;
+}
+
+.search-panel input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+}
+
+.search-panel button,
+.submit-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+}
+
+.section {
+  padding: 36px 0;
+}
+
+.section-title {
+  margin-bottom: 20px;
+}
+
+.chip-grid,
+.feature-grid,
+.testimonial-grid,
+.word-list {
+  display: grid;
+  gap: 16px;
+}
+
+.chip-grid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.chip {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+  text-align: center;
+}
+
+.feature-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.feature-card,
+.word-card,
+.testimonial-card,
+.stored-word-card {
+  padding: 20px;
+}
+
+.split-section {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.steps-list {
+  padding-left: 18px;
+  color: #334155;
+}
+
+.challenge-banner,
+.cta-banner {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.testimonial-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-style: italic;
+}
+
+.testimonial-card span {
+  font-weight: 700;
+  color: #111827;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 24px 0 40px;
+}
+
+.footer a {
+  display: block;
+  color: #475569;
+  text-decoration: none;
+  margin: 6px 0;
+}
+
+.form-page {
+  padding-bottom: 40px;
+}
+
+.form-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 24px;
+  padding-top: 24px;
+}
+
+.form-card,
+.sidebar-card {
+  padding: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+  color: #334155;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #f8fafc;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.submit-btn {
+  margin-top: 16px;
+}
+
+.stored-word-card + .stored-word-card {
+  margin-top: 12px;
+}
+
+.empty-state {
+  color: #64748b;
+  font-style: italic;
+}
+
+.word-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.word-card-header span {
+  background: #ecfeff;
+  color: #0f766e;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .hero-section,
+  .split-section,
+  .form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .challenge-banner,
+  .cta-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 680px) {
+  .page-shell {
+    padding: 16px;
+  }
+
+  .topbar {
+    border-radius: 20px;
+    padding: 16px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-panel {
+    flex-direction: column;
+  }
+}
