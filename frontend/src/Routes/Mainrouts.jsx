@@ -9,6 +9,8 @@ import VocabCreate from '../Pages/vocab/VocabCreate'
 import WordDetail from '../Component/WordDetail.jsx'
 import Word from '../Component/Word.jsx'
 import Section from '../Component/Section.jsx'
+import CreateQuiz from '../Component/CreateQuiz.jsx'
+import Quiz from '../Pages/Quiz.jsx'
 
 const Mainroute = () => {
   return (
@@ -22,6 +24,8 @@ const Mainroute = () => {
         <Route path='/word/details/:id' element={<WordDetail/>} />
         <Route path='/word/:word' element={<Word/>} />
         <Route path='/section/:letter' element={<Section/>} />
+        <Route path='/quiz' element={<Quiz />} />
+        <Route path='/quiz/create' element={<CreateQuiz />} />
     </Routes>
   )
 }

@@ -52,20 +52,10 @@ const vocabSchema = new mongoose.Schema(
     exams: {
         type:String,
     },
-
-    premium: {
-      type: Boolean,
-        default: false
-      
+    exams:{
+        type:string,
     },
-    propremium: {
-      type: Boolean,
-      default: false
-    }
-  },
-  {
-    timestamps: true,
-  }
-);
+},{timestamps:true})
 
-module.exports = mongoose.model("Vocab", vocabSchema);
+const vocabModel = mongoose.model('vocab',vocabSchema)
+module.exports = vocabModel

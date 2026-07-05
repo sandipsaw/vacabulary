@@ -1,9 +1,5 @@
 import React from "react";
-import { NavLink, } from "react-router-dom";
-import VocabCreaate from "../Pages/vocab/VocabCreate.jsx";
-import { useDispatch } from "react-redux";
-import { asyncGetWords } from "../Store/vocabAction";
-
+import { NavLink } from "react-router-dom";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
@@ -25,7 +21,6 @@ const Vocab = () => {
         <h1 className="mb-10 text-4xl font-bold text-center">
           Vocabulary Sections
         </h1>
-    
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
 
