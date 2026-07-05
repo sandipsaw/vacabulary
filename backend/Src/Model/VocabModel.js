@@ -1,27 +1,59 @@
-const mongoose =require('mongoose')
+const mongoose = require("mongoose");
 
-const vocabSchema = new mongoose.Schema({
-    word:{
-        type:String,
-        required:true
+const vocabSchema = new mongoose.Schema(
+  {
+    word: {
+      type: String,
+      required: [true, "Word is required"],
+      unique: true,
+      trim: true,
     },
-    synonyms:{
-        type:Array,
-        required:true
+
+    letter: {
+      type: String,
+      required: true,
+      uppercase: true,
     },
-    examples:{
-        type:String,
-        required:true
+
+    pos: {
+      type: String,
+    //   required: [true, "Word type is required"], // Noun, Verb, Adjective, etc.
     },
-    mnemonics:{
-        type:String,
-        required:true
+
+    definition: {
+      type: String,
+    //   required: [true, "Definition is required"],
+      trim: true,
     },
-    imageUrl:{
+
+    examples: {
+      type: String,
+      required: [true, "Example sentence is required"],
+      trim: true,
+    },
+
+    synonyms: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+
+    hint: {
+      type: String,
+      trim: true,
+    },
+
+    imageUrl: {
+      type: String,
+      default: "",
+    },
+
+    exams: {
         type:String,
     },
     exams:{
-        type:String,
+        type:string,
     },
 },{timestamps:true})
 

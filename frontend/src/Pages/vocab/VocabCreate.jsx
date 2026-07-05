@@ -1,7 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { asyncCreateWord } from "../../Store/vocabAction";
 
 const VocabCreate = () => {
+
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -10,6 +15,7 @@ const VocabCreate = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    dispatch(asyncCreateWord(data));
   };
 
   return (
@@ -60,6 +66,49 @@ const VocabCreate = () => {
               </p>
             </div>
 
+                {/*part of speech */}
+
+                <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+                Part of speech
+              </label>
+
+              <input
+                {...register("pos", {
+                  required: "part of speech is required",
+                })}
+                placeholder="part of speech"
+                className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-indigo-500"
+              />
+
+              <p className="mt-1 text-sm text-red-400">
+                {errors.pos?.message}
+              </p>
+            </div>
+                  {/* definition */}
+
+                  <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+              Definition
+              </label>
+
+              <input
+                {...register("definition", {
+                  required: "definition is required",
+                })}
+                placeholder="definition"
+                className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-indigo-500"
+              />
+
+              <p className="mt-1 text-sm text-red-400">
+                {errors.definition?.message}
+              </p>
+            </div>
+                  
+            
+
+
+
             {/* Synonyms */}
 
             <div>
@@ -83,7 +132,7 @@ const VocabCreate = () => {
 
               <textarea
                 rows="4"
-                {...register("example")}
+                {...register("examples")}
                 placeholder="Write an example sentence..."
                 className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-indigo-500"
               />

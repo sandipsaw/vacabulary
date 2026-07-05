@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
     fullName: {
@@ -8,30 +8,35 @@ const userSchema = new mongoose.Schema({
         minlength: [3, "Full name must be at least 3 characters"],
         maxlength: [50, "Full name cannot exceed 50 characters"],
     },
+
     email: {
-        type: String,
-        required: [true, "Email is required"],
-        unique: true,
-        lowercase: true,
-        trim: true,
-        match: [
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            "Please enter a valid email",
-        ],
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: [
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        "Please enter a valid email",
+      ],
     },
+
     mobile: {
-        type: Number,
-        required: [true, "Mobile number is required"],
-        unique: true,
-        match: [/^[6-9]\d{9}$/, "Please enter a valid mobile number"],
+      type: String,
+      required: [true, "Mobile number is required"],
+      unique: true,
+      match: [
+        /^[6-9]\d{9}$/,
+        "Please enter a valid mobile number",
+      ],
     },
     password: {
-        type: String,
-        required: [true, "Password is required"],
-        minlength: [8, "Password must be at least 8 characters"],
-        select: false,
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [8, "Password must be at least 8 characters"],
+      select: false,
     },
-    
+
     role: {
         type: String,
         enum: {
@@ -41,15 +46,20 @@ const userSchema = new mongoose.Schema({
         default: 'student'
     },
     premium: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
+
     propremium: {
-        type: Boolean,
-        default: false
-    }
-}, { timestamp: true })
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const userModel = mongoose.model('users', userSchema)
+const userModel = mongoose.model("users", userSchema);
 
-module.exports = userModel 
+module.exports = userModel;
