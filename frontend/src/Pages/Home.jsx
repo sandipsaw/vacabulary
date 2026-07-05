@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useNavigate } from 'react-router-dom'
 const features = [
   {
     title: '1000+ English Words',
@@ -81,6 +81,9 @@ const testimonials = [
 ]
 
 const Home = () => {
+  const startQuiz = () =>{
+    Navigate('/quiz')
+  }
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <section id="home" className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.28),_transparent_35%),linear-gradient(135deg,_#111827,_#1f2937)]">
@@ -205,8 +208,8 @@ const Home = () => {
                 <li>• Flashcards and Games</li>
               </ul>
             </div>
-            <a href="#categories" className="inline-flex rounded-full bg-emerald-500 px-5 py-3 font-semibold text-white transition hover:bg-emerald-400">
-              Start Quiz
+            <a href="/quiz" className="inline-flex rounded-full bg-emerald-500 px-5 py-3 font-semibold text-white transition hover:bg-emerald-400">
+              <button onClick={startQuiz}>Start Quiz</button>
             </a>
           </div>
         </div>
