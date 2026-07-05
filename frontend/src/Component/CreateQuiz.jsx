@@ -1,6 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { asyncCreateQuiz } from "../Store/quizAction";
+import { useDispatch,useSelector } from "react-redux";
+import {toast} from 'react-toastify'
+
 const questionTypes = [
   { value: "meaning", label: "Meaning" },
   { value: "synonym", label: "Synonym" },
@@ -14,6 +18,7 @@ const questionTypes = [
 const difficulties = ["Easy", "Medium", "Hard"];
 
 const CreateQuiz = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const {
     register,
@@ -38,9 +43,10 @@ const CreateQuiz = () => {
 
   const values = watch();
 
-  const onSubmit = (data) => {
+  const quizHandler = (data) => {
     console.log("Quiz data:", data);
-    alert("Quiz created successfully!");
+    dispatch(asyncCreateQuiz(data))
+    toast.success("Quiz created successfully")
     reset();
     navigate('/quiz')
   };
@@ -69,7 +75,7 @@ const CreateQuiz = () => {
 
         <div className="grid gap-6 xl:grid-cols-[1.4fr_0.7fr]">
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(quizHandler)}
             className="space-y-6 rounded-[28px] border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/30 backdrop-blur sm:p-8"
           >
             <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-5">

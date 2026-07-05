@@ -5,5 +5,6 @@ const controller = require('../Controller/quiz.controller')
 const router = express.Router();
 
 router.post('/createQuiz',validator.createQuizValidation,controller.createQuiz)
+router.post('/get',controller.getAllQuizzes)
 
 module.exports = router

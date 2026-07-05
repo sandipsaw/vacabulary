@@ -11,11 +11,15 @@ import Word from '../Component/Word.jsx'
 import Section from '../Component/Section.jsx'
 import CreateQuiz from '../Component/CreateQuiz.jsx'
 import Quiz from '../Pages/Quiz.jsx'
+import Dashboard from '../Pages/Dashboard.jsx'
+import Profile from '../Pages/Profile.jsx'
 
 const Mainroute = () => {
   return (
     <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/profile' element={<Profile />} />
         <Route path='/vocab' element={<Vocab />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />

@@ -4,6 +4,7 @@ import {loaduser} from '../Store/userSlice'
 export const asyncRegisterUser = (userData) => async(dispatch,getState)=>{
     try{
         const res = await axios.post('/api/auth/register',userData)
+        dispatch(loaduser(res.data.user))
 
     }catch(error){
         console.log(error)
@@ -13,26 +14,27 @@ export const asyncRegisterUser = (userData) => async(dispatch,getState)=>{
 export const asyncLoginUser = (userData) => async(dispatch,getState)=>{
     try{
         const res = await axios.post('/api/auth/login',userData)
-
+        dispatch(loaduser(res.data.user))
     }catch(error){
         console.log(error)
     }
 }
 
 export const asyncGetUser = () =>async(dispatch,getState)=>{
-    const res = await axios.get('/api/auth/me')
-    if(res){
+    try{
+        const res = await axios.get('/api/auth/me')
         dispatch(loaduser(res.data.user))
+    }catch(error){
+        console.log(error)
     }
-    else{
-        console.log("user not logged in")
-    }
+    
 }
 
 export const asyncLogOutUser = () => async (dispatch, getState) => {
     try {
         const res = await axios.get('/api/auth/logout')
         console.log(res);
+        dispatch(loaduser(null))
         
     } catch (error) {
         console.log(error);

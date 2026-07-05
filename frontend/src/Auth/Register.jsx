@@ -81,6 +81,7 @@ const Register = () => {
               <span className="mb-2 block">Mobile number</span>
               <input {...register('mobile')} className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-indigo-400" />
             </label>
+            
 
             <label className="block text-sm text-slate-300">
               <span className="mb-2 block">Password</span>
@@ -91,7 +92,7 @@ const Register = () => {
                 </button>
               </div>
               <div className="mt-2 h-2 w-full rounded-full bg-slate-800">
-                <div className={`h-2 rounded-full ${strength.color}`} style={{ width: `${(password.length / 12) * 100}%` }} />
+                <div className={`h-2 rounded-full ${strength.color}`} style={{ width: `${(password.length / 15) * 100}%` }} />
               </div>
               <p className="mt-2 text-xs text-slate-400">Strength: {strength.label}</p>
             </label>

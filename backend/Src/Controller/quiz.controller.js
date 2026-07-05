@@ -68,4 +68,27 @@ const createQuiz = async (req, res) => {
   }
 };
 
-module.exports = {  createQuiz};
+
+
+const getAllQuizzes = async (req, res) => {
+  try {
+    const quizzes = await Quiz.find({ isActive: true })
+      .populate("vocab")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      count: quizzes.length,
+      data: quizzes,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+module.exports = {createQuiz, getAllQuizzes};
