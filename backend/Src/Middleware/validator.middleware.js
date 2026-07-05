@@ -1,4 +1,4 @@
-const {body, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 const responseWithValidationErrors = (req, res, next) => {
     const errors = validationResult(req);
@@ -82,4 +82,86 @@ const loginUserValidation = [
     responseWithValidationErrors,
 ];
 
-module.exports = {registerUserValidation,loginUserValidation};
+const createQuizValidation = [
+    // Vocab ID
+    body("vocab")
+        .notEmpty()
+        .withMessage("Vocab ID is required")
+        .custom((value) => {
+            if (!mongoose.Types.ObjectId.isValid(value)) {
+                throw new Error("Invalid Vocab ID");
+            }
+            return true;
+        }),
+
+    // Question Type
+    body("questionType")
+        .notEmpty()
+        .withMessage("Question type is required")
+        .isIn([
+            "meaning",
+            "synonym",
+            "antonym",
+            "fill_blank",
+            "sentence",
+            "spelling",
+            "context",
+        ])
+        .withMessage("Invalid question type"),
+
+    // Question
+    body("question")
+        .trim()
+        .notEmpty()
+        .withMessage("Question is required")
+        .isLength({ min: 5 })
+        .withMessage("Question must be at least 5 characters long"),
+
+    // Options
+    body("options")
+        .isArray({ min: 4, max: 4 })
+        .withMessage("Exactly 4 options are required"),
+
+    body("options.*.text")
+        .trim()
+        .notEmpty()
+        .withMessage("Option text cannot be empty"),
+
+    // Correct Answer
+    body("correctAnswer")
+        .isInt({ min: 0, max: 3 })
+        .withMessage("Correct answer must be between 0 and 3"),
+
+    // Explanation
+    body("explanation")
+        .trim()
+        .notEmpty()
+        .withMessage("Explanation is required"),
+
+    // Difficulty
+    body("difficulty")
+        .optional()
+        .isIn(["Easy", "Medium", "Hard"])
+        .withMessage("Difficulty must be Easy, Medium or Hard"),
+
+    // Marks
+    body("marks")
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage("Marks must be at least 1"),
+
+    // Negative Marks
+    body("negativeMarks")
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage("Negative marks cannot be negative"),
+
+    // isActive
+    body("isActive")
+        .optional()
+        .isBoolean()
+        .withMessage("isActive must be boolean"),
+    responseWithValidationErrors
+];
+
+module.exports = { registerUserValidation, loginUserValidation , createQuizValidation};
