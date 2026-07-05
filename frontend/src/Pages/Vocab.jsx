@@ -1,24 +1,37 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, } from "react-router-dom";
 import VocabCreaate from "../Pages/vocab/VocabCreate.jsx";
+import { useDispatch } from "react-redux";
+import { asyncGetWords } from "../Store/vocabAction";
+
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 const Vocab = () => {
+
+  const dispatch=useDispatch()
+
+  const wordHandler = (letter)=>{
+    console.log(letter);
+    console.log("wordhandler");
+    dispatch(asyncGetWords(letter))
+}
+
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="mx-auto max-w-7xl">
 
+        <NavLink className="w-200 h-100 p-3 m-4 rounded  font-bold bg-slate-900/80 hover:bg-indigo-600 " to="/vocab/create" >  Create Vocab</NavLink>
         <h1 className="mb-10 text-4xl font-bold text-center">
           Vocabulary Sections
         </h1>
-
-        {<VocabCreaate/>}
+    
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
 
           {letters.map((letter) => (
             <NavLink
+            onClick={() => wordHandler(letter)}
               key={letter}
               to={`/section/${letter}`}
               className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8 text-center transition duration-300 hover:-translate-y-1 hover:border-indigo-500 hover:bg-indigo-600"

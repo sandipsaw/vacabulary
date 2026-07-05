@@ -2,25 +2,20 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { asyncLoginUser } from '../Store/userAction'
+import {toast} from 'react-toastify'
 
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
   const { register, handleSubmit, reset } = useForm()
   const [showPassword, setShowPassword] = useState(false)
-  const [message, setMessage] = useState('')
 
-  const onSubmit = (data) => {
-    const users = JSON.parse(localStorage.getItem('vocab_users') || '[]')
-    const matchedUser = users.find((user) => user.email === data.email && user.password === data.password)
-
-    if (!matchedUser) {
-      setMessage('No account found with those credentials. Please register first.')
-      return
-    }
-
-    dispatch({ type: 'LOGIN', payload: { email: data.email, password: data.password } })
-    setMessage(`Welcome back, ${matchedUser.fullName || matchedUser.email}!`)
+  const LoginHandler = (userData) => {
+    console.log("user data:",userData)
+    dispatch(asyncLoginUser(userData))
+    toast.success("Login Account successfully")
     reset()
     setTimeout(() => navigate('/'), 500)
   }
@@ -36,11 +31,11 @@ const Login = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex-1 rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
+        <form onSubmit={handleSubmit(LoginHandler)} className="flex-1 rounded-3xl border border-slate-800 bg-slate-900/80 p-6">
           <h2 className="text-2xl font-bold text-white">Login</h2>
           <p className="mt-2 text-sm text-slate-400">Enter your email and password to continue.</p>
 
-          {message && <div className="mt-4 rounded-2xl border border-indigo-500/20 bg-indigo-500/10 px-4 py-3 text-sm text-indigo-300">{message}</div>}
+        
 
           <label className="mt-6 block text-sm text-slate-300">
             <span className="mb-2 block">Email</span>

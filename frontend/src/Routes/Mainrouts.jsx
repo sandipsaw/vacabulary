@@ -19,7 +19,7 @@ const Mainroute = () => {
         <Route path='/register' element={<Register />} />
         <Route path='/about' element={<About />} />
         <Route path='/vocab/create' element={<VocabCreate/>} />
-        <Route path='/word/details:word' element={<WordDetail/>} />
+        <Route path='/word/details/:id' element={<WordDetail/>} />
         <Route path='/word/:word' element={<Word/>} />
         <Route path='/section/:letter' element={<Section/>} />
     </Routes>

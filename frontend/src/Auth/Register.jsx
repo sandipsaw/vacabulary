@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { asyncRegisterUser } from '../Store/userAction'
+import { toast } from 'react-toastify'
 
 const Register = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { register, handleSubmit, reset, watch } = useForm()
+
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [message, setMessage] = useState('')
@@ -28,22 +31,15 @@ const Register = () => {
 
   const strength = passwordStrength(password)
 
-  const onSubmit = (data) => {
-    if (data.password !== data.confirmPassword) {
+  const registerHandler = (userData) => {
+    console.log(userData)
+    if (userData.password !== userData.confirmPassword) {
       setMessage('Passwords do not match')
       return
     }
-
-    const payload = {
-      fullName: data.fullName,
-      email: data.email,
-      mobile: data.mobile,
-      password: data.password,
-      createdAt: new Date().toISOString(),
-    }
-
-    dispatch({ type: 'REGISTER', payload })
-    setMessage(`Welcome ${data.fullName}! Your account is ready.`)
+    dispatch(asyncRegisterUser(userData))
+    setMessage(`Welcome ${userData.fullName}! Your account is ready.`)
+    toast.success("urer Account created successfully")
     reset()
     setTimeout(() => navigate('/login'), 500)
   }
@@ -64,7 +60,7 @@ const Register = () => {
           </ul>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/30 sm:p-8">
+        <form onSubmit={handleSubmit(registerHandler)} className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/30 sm:p-8">
           <h2 className="text-2xl font-bold text-white">Create an account</h2>
           <p className="mt-2 text-sm text-slate-400">Fill in the details below to get started.</p>
 
