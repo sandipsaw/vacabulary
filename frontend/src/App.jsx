@@ -6,6 +6,7 @@ import { asyncGetUser } from './Store/userAction'
 import { useEffect } from 'react'
 const App = () => {
   const dispatch = useDispatch()
+  
   useEffect(()=>{
     dispatch(asyncGetUser())
   },[])

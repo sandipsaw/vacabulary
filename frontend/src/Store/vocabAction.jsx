@@ -5,12 +5,11 @@ import { loadwords,loadSingleWord } from '../Store/vocabSlice.jsx'
 export const asyncCreateWord = (data) => async (dispatch) => {
     try {
       const res = await axios.post("/api/vocab/create", data);
-  
-      ;
-  
+    
       return res.data;
     } catch (error) {
       console.error(error.response?.data || error.message);
+      console.log(error)
     }
   };
 

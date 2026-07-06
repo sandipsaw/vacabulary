@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { asyncLoginUser } from '../Store/userAction'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -12,12 +12,18 @@ const Login = () => {
   const { register, handleSubmit, reset } = useForm()
   const [showPassword, setShowPassword] = useState(false)
 
-  const LoginHandler = (userData) => {
-    console.log("user data:",userData)
-    dispatch(asyncLoginUser(userData))
-    toast.success("Login Account successfully")
-    reset()
-    setTimeout(() => navigate('/'), 500)
+  const LoginHandler = async (userData) => {
+    const result = await dispatch(asyncLoginUser(userData));
+
+    if (result.success) {
+      toast.success("Login Successfully");
+      reset();
+      navigate("/");
+    } else {
+      toast.error(result.message);
+    }
+
+
   }
 
   return (
@@ -35,7 +41,7 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-white">Login</h2>
           <p className="mt-2 text-sm text-slate-400">Enter your email and password to continue.</p>
 
-        
+
 
           <label className="mt-6 block text-sm text-slate-300">
             <span className="mb-2 block">Email</span>

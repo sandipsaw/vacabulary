@@ -2,6 +2,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const authRoutes = require('./Routes/authRoutes')
 const quizRoutes = require('./Routes/quizRoutes')
+const vocabRoutes = require('./Routes/VocabRoutes')
 const cors = require('cors')
 const connectToDb = require('./Db/db')
 
@@ -16,5 +17,6 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.use('/api/auth',authRoutes)
-
+app.use('/api/vocab',vocabRoutes)
+app.use('/api/quiz',quizRoutes)
 module.exports = app

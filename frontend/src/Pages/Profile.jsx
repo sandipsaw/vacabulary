@@ -2,10 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { asyncGetUser } from '../Store/userAction'
+import { useEffect } from 'react'
 const Profile = () => {
-    
-    const user = useSelector((state)=>state.userReducers)
-    console.log(user)
+
+
+  const { user } = useSelector((state) => state.userReducers);
+
+  if (!user) {
+    return <h1>Loading...</h1>;
+  }
+  // const val =Math.floor(1000 + Math.random() * 9000);
+
 
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 sm:px-6 lg:px-8">
@@ -13,11 +20,11 @@ const Profile = () => {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-4">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-indigo-500 text-3xl font-bold text-white">
-              S
+              {user.fullName.charAt(0)}
             </div>
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-cyan-400">Profile</p>
-              <h1 className="text-3xl font-semibold text-white">Sandip Sharma</h1>
+              <h1 className="text-3xl font-semibold text-white">{user.fullName}</h1>
               <p className="mt-2 text-sm text-slate-400">Vocabulary learner • Level 5</p>
             </div>
           </div>
@@ -33,15 +40,15 @@ const Profile = () => {
             <div className="mt-6 space-y-4 text-sm text-slate-300">
               <div className="flex items-center justify-between rounded-2xl bg-slate-900/70 px-4 py-3">
                 <span>Name</span>
-                <span className="font-semibold text-white">Sandip Sharma</span>
+                <span className="font-semibold text-white">{user.fullName}</span>
               </div>
               <div className="flex items-center justify-between rounded-2xl bg-slate-900/70 px-4 py-3">
                 <span>Email</span>
-                <span className="font-semibold text-white">sandip@example.com</span>
+                <span className="font-semibold text-white">{user.email}</span>
               </div>
               <div className="flex items-center justify-between rounded-2xl bg-slate-900/70 px-4 py-3">
                 <span>Username</span>
-                <span className="font-semibold text-white">@sandip</span>
+                <span className="font-semibold text-white">{user.fullName.toLowerCase().replace(" ","_")}</span>
               </div>
               <div className="flex items-center justify-between rounded-2xl bg-slate-900/70 px-4 py-3">
                 <span>Joined Date</span>

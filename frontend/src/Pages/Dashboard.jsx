@@ -1,7 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Dashboard = () => {
+  const {user} = useSelector((state)=>state.userReducers)
+  if(!user){
+    return <h1>Loading...</h1>
+  }
+  console.log(user.fullName)
+
   const stats = [
     { label: 'Total Words Learned', value: '356' },
     { label: 'Total Quizzes Attempted', value: '42' },
@@ -33,7 +40,7 @@ const Dashboard = () => {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.3em] text-cyan-400">Dashboard</p>
-              <h1 className="mt-2 text-3xl font-semibold text-white">Hello, Sandip 👋</h1>
+              <h1 className="mt-2 text-3xl font-semibold text-white">Hello,  {user.fullName}👋</h1>
               <p className="mt-2 text-slate-400">Ready to learn today?</p>
             </div>
             <Link to="/profile" className="rounded-full bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400">
