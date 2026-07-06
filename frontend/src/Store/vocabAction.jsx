@@ -13,11 +13,19 @@ export const asyncCreateWord = (data) => async (dispatch) => {
     }
   };
 
+  export const asyncGetAllWords =()=>async (dispatch,getState)=>{
+    try{
+      const res = await axios.get('/api/vocab/all_vocab_words')
+      console.log(res.data.vocab)
+    }catch(error){
+      console.log(error)
+    }
+  }
 export const asyncGetWords = (letter) => async (dispatch)=>{
   try {
     console.log("letter",letter);
     const res = await axios.get(`/api/vocab/getwords/${letter}`)
-    console.log(res.data.words)
+    console.log(res.data)
     dispatch(loadwords(res.data.words))
   } catch (error) {
     console.error(error.response?.data || error.message);

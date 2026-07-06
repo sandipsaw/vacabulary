@@ -21,7 +21,7 @@ const WordDetail = () => {
     dispatch(asyncGetWordById(id));
   }, [dispatch, id]);
 
-  const word = useSelector((state) => state.vocab.SingleWord);
+  const word = useSelector((state) => state.vocabReducers.SingleWord);
   console.log(word);
 
   if (!word) {

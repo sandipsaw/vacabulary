@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+import {asyncGetWords} from '../Store/vocabAction'
 
 const Vocab = () => {
-
+  
   const dispatch=useDispatch()
 
   const wordHandler = (letter)=>{
@@ -27,6 +28,7 @@ const Vocab = () => {
           {letters.map((letter) => (
             <NavLink
             onClick={() => wordHandler(letter)}
+            
               key={letter}
               to={`/section/${letter}`}
               className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8 text-center transition duration-300 hover:-translate-y-1 hover:border-indigo-500 hover:bg-indigo-600"

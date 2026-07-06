@@ -5,7 +5,7 @@ const quizSchema = new mongoose.Schema(
     // Reference to vocab
     vocab: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Vocab",
+      ref: "vocab",
       required: true,
     },
 
@@ -78,6 +78,25 @@ const quizSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    word: {
+      type: String,
+      required: true,
+    },
+    definition: {
+      type: String,
+      required: true,
+    },
+    synonyms: {
+      type: [String],
+      required: true,
+    },
+    antonyms: {
+      type: [String],
+      required: true,
+    },
+    examples: {
+      type: String,
     },
   },
   {

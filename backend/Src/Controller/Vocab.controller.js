@@ -9,6 +9,7 @@ const createWord = async (req, res) => {
       definition,
       examples,
       synonyms,
+      antonyms,
       hint,
       imageUrl,
       exams,
@@ -32,6 +33,7 @@ const createWord = async (req, res) => {
       definition,
       examples,
       synonyms,
+      antonyms,
       hint,
       imageUrl,
       exams,
@@ -56,7 +58,7 @@ const updateWord = async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
-    const { word, pos, definition, examples, synonyms, hint, imageUrl, exams } =
+    const { word, pos, definition, examples, synonyms,antonyms, hint, imageUrl, exams } =
       req.body;
 
     const updatedWord = await vocabModel.findByIdAndUpdate(
@@ -68,6 +70,7 @@ const updateWord = async (req, res) => {
         definition,
         examples,
         synonyms,
+        antonyms,
         hint,
         imageUrl,
         exams,
@@ -131,6 +134,20 @@ const deleteWord = async (req, res) => {
   }
 };
 
+const getAllVocab = async(req,res)=>{
+  try{
+    const vocab = await vocabModel.find()
+    return res.status(201).json({
+      message:"you all vocabs are available here:",
+      vocab
+    })
+  }catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
 const getWordsByLetter = async (req, res) => {
   try {
     const { letter } = req.params;
@@ -170,4 +187,4 @@ const getWordById = async (req, res) => {
   }
 };
 
-module.exports = { createWord, updateWord, deleteWord,getWordsByLetter,getWordById };
+module.exports = { createWord, updateWord, deleteWord,getWordsByLetter,getWordById ,getAllVocab};

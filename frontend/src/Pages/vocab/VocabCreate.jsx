@@ -2,11 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { asyncCreateWord } from "../../Store/vocabAction";
+import {toast} from 'react-toastify'
+import { useNavigate } from "react-router-dom";
 
 const VocabCreate = () => {
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -16,6 +18,8 @@ const VocabCreate = () => {
   const onSubmit = (data) => {
     console.log(data);
     dispatch(asyncCreateWord(data));
+    toast.success("Vocab word Created Sucessfully")
+    navigate('/vocab')
   };
 
   return (
@@ -118,6 +122,19 @@ const VocabCreate = () => {
 
               <input
                 {...register("synonyms")}
+                placeholder="Happy, Cheerful, Joyful"
+                className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-indigo-500"
+              />
+            </div>
+            {/* Antonyms */}
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+                Antonyms
+              </label>
+
+              <input
+                {...register("antonyms")}
                 placeholder="Happy, Cheerful, Joyful"
                 className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-indigo-500"
               />

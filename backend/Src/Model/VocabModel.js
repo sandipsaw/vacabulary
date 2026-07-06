@@ -17,12 +17,12 @@ const vocabSchema = new mongoose.Schema(
 
     pos: {
       type: String,
-    //   required: [true, "Word type is required"], // Noun, Verb, Adjective, etc.
+      //   required: [true, "Word type is required"], // Noun, Verb, Adjective, etc.
     },
 
     definition: {
       type: String,
-    //   required: [true, "Definition is required"],
+      //   required: [true, "Definition is required"],
       trim: true,
     },
 
@@ -32,12 +32,15 @@ const vocabSchema = new mongoose.Schema(
       trim: true,
     },
 
-    synonyms: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+    synonyms: {
+      type: [String],
+      required: true,
+    },
+    
+    antonyms: {
+      type: [String],
+      required: true,
+    },
 
     hint: {
       type: String,
@@ -50,12 +53,12 @@ const vocabSchema = new mongoose.Schema(
     },
 
     exams: {
-        type:String,
+      type: String,
     },
-    exams:{
-        type:String,
+    exams: {
+      type: String,
     },
-},{timestamps:true})
+  }, { timestamps: true })
 
-const vocabModel = mongoose.model('vocab',vocabSchema)
+const vocabModel = mongoose.model('vocab', vocabSchema)
 module.exports = vocabModel

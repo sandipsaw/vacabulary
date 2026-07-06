@@ -1,88 +1,39 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { CgMathPlus } from "react-icons/cg";
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const quizQuestions = [
-  {
-    id: 1,
-    word: 'Abandon',
-    prompt: 'Choose the meaning of the word “Abandon”.',
-    options: ['Leave behind', 'Support strongly', 'Build carefully', 'Collect eagerly'],
-    correct: 0,
-    hint: 'Starts with A',
-    meaning: 'To leave behind completely.',
-    synonym: 'Desert',
-    antonym: 'Retain',
-    mnemonic: 'A band of people leaves the place = abandon.',
-    example: 'The crew had to abandon the ship.'
-  },
-  {
-    id: 2,
-    word: 'Meticulous',
-    prompt: 'Which word best matches “Meticulous”?',
-    options: ['Careless', 'Very detailed', 'Quick', 'Noisy'],
-    correct: 1,
-    hint: 'It describes attention to detail.',
-    meaning: 'Showing great attention to detail.',
-    synonym: 'Precise',
-    antonym: 'Careless',
-    mnemonic: 'Meticulous = every tiny detail matters.',
-    example: 'She made a meticulous plan.'
-  },
-  {
-    id: 3,
-    word: 'Obsolete',
-    prompt: 'Select the closest meaning of “Obsolete”.',
-    options: ['Modern', 'Outdated', 'Useful', 'Bright'],
-    correct: 1,
-    hint: 'Think of old technology.',
-    meaning: 'No longer in use because of new alternatives.',
-    synonym: 'Outdated',
-    antonym: 'Current',
-    mnemonic: 'Old and no longer useful = obsolete.',
-    example: 'The old software became obsolete.'
-  },
-  {
-    id: 4,
-    word: 'Eloquent',
-    prompt: 'What does “Eloquent” mean?',
-    options: ['Silent', 'Fluent and persuasive', 'Confused', 'Rude'],
-    correct: 1,
-    hint: 'Think of a speech.',
-    meaning: 'Fluent or persuasive in speaking or writing.',
-    synonym: 'Articulate',
-    antonym: 'Inarticulate',
-    mnemonic: 'An eloquent speaker sounds elegant.',
-    example: 'He gave an eloquent speech.'
-  },
-  {
-    id: 5,
-    word: 'Diligent',
-    prompt: 'Which option best describes “Diligent”?',
-    options: ['Lazy', 'Hard-working', 'Fearful', 'Shy'],
-    correct: 1,
-    hint: 'It is a positive trait.',
-    meaning: 'Showing careful and persistent work.',
-    synonym: 'Industrious',
-    antonym: 'Idle',
-    mnemonic: 'Diligent people work with diligence.',
-    example: 'She is a diligent student.'
-  }
-]
 
 const Quiz = () => {
+
   const navigate = useNavigate()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [answers, setAnswers] = useState({})
-  const [statuses, setStatuses] = useState(() => Object.fromEntries(quizQuestions.map((q) => [q.id, 'not-visited'])))
+
   const [bookmarked, setBookmarked] = useState([])
   const [confidence, setConfidence] = useState({})
   const [started, setStarted] = useState(false)
   const [finished, setFinished] = useState(false)
   const [timeLeft, setTimeLeft] = useState(15 * 60)
+  const [statuses, setStatuses] = useState({});
+
+  const quizQuestions = useSelector((state) => state.quizReducers.quizes?.data || [])
+
+  console.log(quizQuestions)
+
+
+  useEffect(() => {
+    if (quizQuestions.length > 0) {
+      setStatuses(
+        Object.fromEntries(
+          quizQuestions.map((q) => [q._id, "not-visited"])
+        )
+      );
+    }
+  }, [quizQuestions]);
 
   const currentQuestion = quizQuestions[currentIndex]
-  const currentStatus = statuses[currentQuestion?.id] || 'not-visited'
+  const currentStatus = statuses[currentQuestion?._id] || 'not-visited'
 
   useEffect(() => {
     if (!started || finished) return
@@ -109,24 +60,45 @@ const Quiz = () => {
   const remainingCount = quizQuestions.length - answeredCount - reviewCount - skippedCount
 
   const resultSummary = useMemo(() => {
-    const correct = quizQuestions.reduce((acc, question) => acc + (answers[question.id] === question.correct ? 1 : 0), 0)
-    const wrong = quizQuestions.length - correct - skippedCount
+    const correct = quizQuestions.filter(
+      q => answers[q._id] === q.correctAnswer
+    ).length;
+
+    const wrong = quizQuestions.filter(q => {
+      return (
+        answers[q._id] !== undefined &&
+        answers[q._id] !== q.correctAnswer
+      );
+    }).length;
+
     const accuracy = Math.round((correct / quizQuestions.length) * 100)
-    const score = correct * 5
+
+    const score = quizQuestions.reduce((total, question) => {
+      if (answers[question._id] === question.correctAnswer) {
+        return total + question.marks;
+      }
+
+      if (answers[question._id] !== undefined) {
+        return total - question.negativeMarks;
+      }
+
+      return total;
+    }, 0);
+
     const timeUsed = 15 * 60 - timeLeft
 
     return { correct, wrong, skipped: skippedCount, accuracy, score, timeUsed }
-  }, [answers, skippedCount, timeLeft])
+  }, [answers, skippedCount, timeLeft, quizQuestions])
 
   const weakWords = useMemo(() => {
     return quizQuestions
-      .filter((question) => answers[question.id] !== undefined && answers[question.id] !== question.correct)
+      .filter((question) => answers[question._id] !== undefined && answers[question._id] !== question.correctAnswer)
       .map((question) => question.word)
-  }, [answers])
+  }, [answers, quizQuestions])
 
   const handleSelectOption = (optionIndex) => {
-    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: optionIndex }))
-    setStatuses((prev) => ({ ...prev, [currentQuestion.id]: 'answered' }))
+    setAnswers((prev) => ({ ...prev, [currentQuestion._id]: optionIndex }))
+    setStatuses((prev) => ({ ...prev, [currentQuestion._id]: 'answered' }))
   }
 
   const goToNext = () => {
@@ -142,12 +114,12 @@ const Quiz = () => {
   }
 
   const handleMarkReview = () => {
-    setStatuses((prev) => ({ ...prev, [currentQuestion.id]: 'review' }))
+    setStatuses((prev) => ({ ...prev, [currentQuestion._id]: 'review' }))
     goToNext()
   }
 
   const handleSkip = () => {
-    setStatuses((prev) => ({ ...prev, [currentQuestion.id]: 'skipped' }))
+    setStatuses((prev) => ({ ...prev, [currentQuestion._id]: 'skipped' }))
     goToNext()
   }
 
@@ -156,7 +128,7 @@ const Quiz = () => {
   }
 
   const handleConfidence = (level) => {
-    setConfidence((prev) => ({ ...prev, [currentQuestion.id]: level }))
+    setConfidence((prev) => ({ ...prev, [currentQuestion._id]: level }))
   }
 
   const jumpToQuestion = (index) => {
@@ -166,7 +138,7 @@ const Quiz = () => {
   const resetQuiz = () => {
     setCurrentIndex(0)
     setAnswers({})
-    setStatuses(Object.fromEntries(quizQuestions.map((q) => [q.id, 'not-visited'])))
+    setStatuses(Object.fromEntries(quizQuestions.map((q) => [q._id, 'not-visited'])))
     setBookmarked([])
     setConfidence({})
     setStarted(false)
@@ -186,8 +158,8 @@ const Quiz = () => {
     if (status === 'skipped') return 'bg-rose-500 text-white'
     return 'bg-slate-700 text-slate-300'
   }
-  
-  const addQuiz = () =>{
+
+  const addQuiz = () => {
     navigate('/quiz/create')
   }
 
@@ -195,11 +167,11 @@ const Quiz = () => {
     <div className="min-h-screen bg-slate-950 text-slate-100 px-4 relative py-8 md:px-8">
       <div className='absolute right-10 bottom-5 fixed'>
         <button
-        onClick={() => setStarted(true)}
-        className="rounded-full  bg-cyan-500 p-2 text-white font-semibold text-slate-950 transition hover:bg-cyan-400"
-      >
-        <CgMathPlus  size={25} onClick={addQuiz}/>
-      </button>
+          onClick={() => setStarted(true)}
+          className="rounded-full  bg-cyan-500 p-2 text-white font-semibold text-slate-950 transition hover:bg-cyan-400"
+        >
+          <CgMathPlus size={25} onClick={addQuiz} />
+        </button>
       </div>
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-black/30">
@@ -237,9 +209,9 @@ const Quiz = () => {
                   ['Total Questions', quizQuestions.length],
                   ['Time Limit', '15 Minutes'],
                   ['Passing Marks', '60%'],
-                  ['Marks per Question', '5'],
-                  ['Negative Marking', 'No'],
-                  ['Difficulty', 'Medium']
+                  ['Marks per Question', `{quizQuestions[0]?.marks}`],
+                  ['Negative Marking', `{quizQuestions[0]?.negativeMarks}`],
+                  ['Difficulty', `{quizQuestions[0]?.difficulty}`]
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
                     <p className="text-sm text-slate-400">{label}</p>
@@ -297,7 +269,7 @@ const Quiz = () => {
                   <div>
                     <p className="text-sm uppercase tracking-[0.3em] text-amber-400">Question</p>
                     <h3 className="mt-2 text-2xl font-semibold">{currentQuestion.word}</h3>
-                    <p className="mt-3 text-slate-300">{currentQuestion.prompt}</p>
+                    <p className="mt-3 text-slate-300">{currentQuestion.question}</p>
                   </div>
                   <button
                     onClick={toggleBookmark}
@@ -308,30 +280,28 @@ const Quiz = () => {
                 </div>
 
                 <div className="mt-6 grid gap-3">
-                  {currentQuestion.options.map((option, index) => {
-                    const selected = answers[currentQuestion.id] === index
+                  {currentQuestion?.options?.map((option, index) => {
+                    const selected = answers[currentQuestion._id] === index;
+
                     return (
                       <button
-                        key={option}
+                        key={option._id}
                         onClick={() => handleSelectOption(index)}
-                        className={`rounded-2xl border px-4 py-3 text-left transition ${selected ? 'border-cyan-500 bg-cyan-500/10 text-cyan-200' : 'border-slate-800 bg-slate-950/70 text-slate-300 hover:border-cyan-500/50'}`}
+                        className={`rounded-2xl border px-4 py-3 text-left transition ${selected
+                            ? "border-cyan-500 bg-cyan-500/10 text-cyan-200"
+                            : "border-slate-800 bg-slate-950/70 text-slate-300 hover:border-cyan-500/50"
+                          }`}
                       >
-                        <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-sm font-semibold">{String.fromCharCode(65 + index)}</span>
-                        {option}
+                        <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-sm font-semibold">
+                          {String.fromCharCode(65 + index)}
+                        </span>
+
+                        {option.text}
                       </button>
-                    )
+                    );
                   })}
                 </div>
 
-                <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-semibold text-cyan-300">Hint</p>
-                      <p className="mt-1 text-sm text-slate-400">{currentQuestion.hint}</p>
-                    </div>
-                    <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-sm text-cyan-300">💡 Tip</span>
-                  </div>
-                </div>
 
                 <div className="mt-6">
                   <p className="text-sm font-semibold text-slate-300">How confident are you?</p>
@@ -340,7 +310,7 @@ const Quiz = () => {
                       <button
                         key={level}
                         onClick={() => handleConfidence(level)}
-                        className={`rounded-full px-3 py-2 text-sm ${confidence[currentQuestion.id] === level ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'}`}
+                        className={`rounded-full px-3 py-2 text-sm ${confidence[currentQuestion._id] === level ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'}`}
                       >
                         {level}
                       </button>
@@ -372,9 +342,9 @@ const Quiz = () => {
                 <div className="mt-4 grid grid-cols-5 gap-2">
                   {quizQuestions.map((question, index) => (
                     <button
-                      key={question.id}
+                      key={question._id}
                       onClick={() => jumpToQuestion(index)}
-                      className={`h-10 rounded-xl text-sm font-semibold ${getStatusClass(statuses[question.id])}`}
+                      className={`h-10 rounded-xl text-sm font-semibold ${getStatusClass(statuses[question._id])}`}
                     >
                       {index + 1}
                     </button>
@@ -444,14 +414,20 @@ const Quiz = () => {
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
                   <h3 className="text-xl font-semibold">13. Word Explanation</h3>
                   <div className="mt-4 space-y-4">
-                    {quizQuestions.filter((question) => answers[question.id] !== undefined && answers[question.id] !== question.correct).map((question) => (
-                      <div key={question.id} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+                    {quizQuestions.filter((question) => answers[question._id] !== undefined && answers[question._id] !== question.correct).map((question) => (
+                      <div key={question._id} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
                         <p className="font-semibold text-white">{question.word}</p>
-                        <p className="mt-2 text-sm text-slate-400">Meaning: {question.meaning}</p>
-                        <p className="text-sm text-slate-400">Synonym: {question.synonym}</p>
-                        <p className="text-sm text-slate-400">Antonym: {question.antonym}</p>
+                        <p className="mt-2 text-sm text-slate-400"><p>Definition: {question.definition}</p></p>
+                        <p className="text-sm text-slate-400">Synonyms:
+                          {" "}
+                          {question.synonyms.join(", ")}</p>
+                        <p className="text-sm text-slate-400">Antonyms:
+                          {" "}
+                          {question.antonyms.join(", ")}</p>
                         <p className="text-sm text-slate-400">Mnemonic: {question.mnemonic}</p>
-                        <p className="text-sm text-slate-400">Example: {question.example}</p>
+                        <p className="text-sm text-slate-400">Example:
+                          {" "}
+                          {question.examples}</p>
                       </div>
                     ))}
                   </div>

@@ -1,24 +1,15 @@
 import React from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { asyncGetWords } from "../Store/vocabAction";
 
 
 const Section = () => {
-   
 
-
-  const Words = useSelector((state) => state.vocab.words);
-
+  const Words = useSelector((state) => state.vocabReducers.words);
   console.log(Words);
 
-
-  
   const { letter } = useParams();
-
-  
-
- 
 
   return (
     <div className="min-h-screen bg-slate-950 text-white px-6 py-10">
@@ -40,27 +31,33 @@ const Section = () => {
             to={`/word/details/${word._id}`}
             className="group rounded-3xl bg-white/70 backdrop-blur-lg shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-2 border border-gray-200"
           >
-            <div className="p-6">
+            <div className="p-5">
               {/* Letter Badge */}
-              <div className="flex justify-between items-center mb-5">
-                <span className="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition">
+              <div className="flex justify-between gat-5 items-center mb-5">
+                <div className="w-15 h-15 rounded-full bg-indigo-600 text-white flex items-center justify-center text-3xl font-bold group-hover:scale-110 transition">
                   {word.letter}
-                </span>
+                </div>
 
-                <span className="text-sm text-gray-500 font-semibold">
-                  #{word._id}
-                </span>
+                <div>
+
+                  <h2 className="text-2xl font-bold text-gray-800 group-hover:text-indigo-600 transition">
+
+                    {word.word}
+                  </h2>
+                  <span className="text-sm text-gray-500 font-semibold">
+                    #{word._id}
+                  </span>
+                  <br />
+                  <span className="text-gray-500 font-semibold">
+                    click to learn more ☝️
+                  </span>
+
+
+                </div>
               </div>
 
               {/* Word */}
-              <h2 className="text-2xl font-bold text-gray-800 group-hover:text-indigo-600 transition">
-               
-                {word.word}
-              </h2>
 
-              <p className="text-gray-500 mt-3">
-                Click to learn more →
-              </p>
             </div>
           </NavLink>
         ))}

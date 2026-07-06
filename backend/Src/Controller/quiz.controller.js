@@ -18,6 +18,7 @@ const createQuiz = async (req, res) => {
 
     // Check vocab exists
     const vocabExists = await Vocab.findById(vocab);
+    console.log(vocabExists)
 
     if (!vocabExists) {
       return res.status(404).json({
@@ -27,17 +28,18 @@ const createQuiz = async (req, res) => {
     }
 
     // Check duplicate question for same vocab
-    const quizExists = await Quiz.findOne({
-      vocab,
-      questionType,
-    });
+    // const quizExists = await Quiz.findOne({
+    //   vocab,
+    //   questionType,
+    // });
 
-    if (quizExists) {
-      return res.status(409).json({
-        success: false,
-        message: "Quiz already exists for this vocab and question type",
-      });
-    }
+    // if (quizExists) {
+    //   console.log(quizExists)
+    //   return res.status(409).json({
+    //     success: false,
+    //     message: "Quiz already exists for this vocab and question type",
+    //   });
+    // }
 
     const quiz = await Quiz.create({
       vocab,
@@ -50,6 +52,11 @@ const createQuiz = async (req, res) => {
       marks,
       negativeMarks,
       isActive,
+      word: vocabExists.word,
+      definition: vocabExists.definition,
+      synonyms: vocabExists.synonyms,
+      antonyms: vocabExists.antonyms,
+      examples: vocabExists.examples,
     });
 
     return res.status(201).json({
@@ -72,9 +79,13 @@ const createQuiz = async (req, res) => {
 
 const getAllQuizzes = async (req, res) => {
   try {
-    const quizzes = await Quiz.find({ isActive: true })
-      .populate("vocab")
-      .sort({ createdAt: -1 });
+    const quizzes = await Quiz.aggregate([
+      {
+        $sample: {
+          size: 30,
+        },
+      },
+    ]);
 
     return res.status(200).json({
       success: true,
@@ -91,4 +102,4 @@ const getAllQuizzes = async (req, res) => {
 
 
 
-module.exports = {createQuiz, getAllQuizzes};
+module.exports = { createQuiz, getAllQuizzes };

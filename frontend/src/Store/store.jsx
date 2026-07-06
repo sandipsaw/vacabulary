@@ -7,6 +7,6 @@ export const store = configureStore({
     reducer:{
         quizReducers:quizSlice,
         userReducers:userSlice,
-        vocab: vocabSlice,
+        vocabReducers: vocabSlice,
     },
 })
