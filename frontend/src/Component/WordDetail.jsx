@@ -117,6 +117,32 @@ const WordDetail = () => {
           </div>
         </div>
 
+
+
+        <div className="rounded-3xl bg-white/70 backdrop-blur-lg border border-gray-200 shadow-lg p-8">
+          <h2 className="text-2xl font-bold text-indigo-700 flex items-center gap-3 mb-4">
+            <TbArrowsExchange />
+            Antonyms
+          </h2>
+
+          <div className="flex flex-wrap gap-3">
+            {Array.isArray(word.synonyms) ? (
+              word.antonyms.map((item) => (
+                <span
+                  key={item}
+                  className="bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold"
+                >
+                  {item}
+                </span>
+              ))
+            ) : (
+              <span className="bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold">
+                {word.antonyms}
+              </span>
+            )}
+          </div>
+        </div>
+
         {/* Hint */}
         <div className="rounded-3xl bg-white/70 backdrop-blur-lg border border-gray-200 shadow-lg p-8">
           <h2 className="text-2xl font-bold text-indigo-700 flex items-center gap-3 mb-4">

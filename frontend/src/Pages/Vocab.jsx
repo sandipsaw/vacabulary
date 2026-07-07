@@ -3,11 +3,12 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 import {asyncGetWords} from '../Store/vocabAction'
-
+import { useSelector } from "react-redux";
 const Vocab = () => {
   
   const dispatch=useDispatch()
-
+  const userData = useSelector((state)=>state.userReducers.user)
+  console.log(userData);
   const wordHandler = (letter)=>{
     console.log(letter);
     console.log("wordhandler");
@@ -16,9 +17,10 @@ const Vocab = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
+      {userData.role == "admin" ? (<><NavLink className="w-200 h-100 p-3 m-4 rounded  font-bold bg-slate-900/80 hover:bg-indigo-600 " to="/vocab/create" >  Create Vocab</NavLink></>): (<></>)}
       <div className="mx-auto max-w-7xl">
 
-        <NavLink className="w-200 h-100 p-3 m-4 rounded  font-bold bg-slate-900/80 hover:bg-indigo-600 " to="/vocab/create" >  Create Vocab</NavLink>
+        
         <h1 className="mb-10 text-4xl font-bold text-center">
           Vocabulary Sections
         </h1>

@@ -71,6 +71,7 @@ const quizSchema = new mongoose.Schema(
     // Negative Marks
     negativeMarks: {
       type: Number,
+      type: String,
       default: 0,
     },
 
@@ -96,7 +97,6 @@ const quizSchema = new mongoose.Schema(
       required: true,
     },
     examples: {
-      type: String,
     },
   },
   {

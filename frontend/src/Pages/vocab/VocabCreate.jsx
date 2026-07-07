@@ -4,11 +4,15 @@ import { useDispatch } from "react-redux";
 import { asyncCreateWord } from "../../Store/vocabAction";
 import {toast} from 'react-toastify'
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const VocabCreate = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
+
+  
+  
   const {
     register,
     handleSubmit,
@@ -22,7 +26,7 @@ const VocabCreate = () => {
     navigate('/vocab')
   };
 
-  return (
+  return ( 
     <div className="min-h-screen bg-slate-950 text-white py-12 px-4">
       <div className="mx-auto max-w-4xl">
 

@@ -9,7 +9,7 @@ const Quiz = () => {
   const navigate = useNavigate()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [answers, setAnswers] = useState({})
-
+  const [count,setcount] =useState(0)
   const [bookmarked, setBookmarked] = useState([])
   const [confidence, setConfidence] = useState({})
   const [started, setStarted] = useState(false)
@@ -20,8 +20,7 @@ const Quiz = () => {
   const quizQuestions = useSelector((state) => state.quizReducers.quizes?.data || [])
 
   console.log(quizQuestions)
-
-
+  const userData = useSelector((state)=>state.userReducers.user)
   useEffect(() => {
     if (quizQuestions.length > 0) {
       setStatuses(
@@ -165,7 +164,9 @@ const Quiz = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 px-4 relative py-8 md:px-8">
-      <div className='absolute right-10 bottom-5 fixed'>
+      {userData.role == "admin" ? (
+        <>
+        <div className='absolute right-10 bottom-5 fixed'>
         <button
           onClick={() => setStarted(true)}
           className="rounded-full  bg-cyan-500 p-2 text-white font-semibold text-slate-950 transition hover:bg-cyan-400"
@@ -173,6 +174,7 @@ const Quiz = () => {
           <CgMathPlus size={25} onClick={addQuiz} />
         </button>
       </div>
+      </>):(<></>)}
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-black/30">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -203,15 +205,15 @@ const Quiz = () => {
         {!started ? (
           <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-              <h2 className="text-2xl font-semibold">1. Quiz Instructions</h2>
+              <h2 className="text-2xl font-semibold">Quiz Instructions</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {[
                   ['Total Questions', quizQuestions.length],
                   ['Time Limit', '15 Minutes'],
                   ['Passing Marks', '60%'],
-                  ['Marks per Question', `{quizQuestions[0]?.marks}`],
-                  ['Negative Marking', `{quizQuestions[0]?.negativeMarks}`],
-                  ['Difficulty', `{quizQuestions[0]?.difficulty}`]
+                  ['Marks per Question', `${quizQuestions[0]?.marks}`],
+                  ['Negative Marking', `${quizQuestions[0]?.negativeMarks}`],
+                  ['Difficulty', `${quizQuestions[0]?.difficulty}`]
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
                     <p className="text-sm text-slate-400">{label}</p>
@@ -226,7 +228,7 @@ const Quiz = () => {
             </div>
 
             <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-              <h2 className="text-2xl font-semibold">2. Quiz Information Card</h2>
+              <h2 className="text-2xl font-semibold">Quiz Information Card</h2>
               <div className="mt-4 space-y-3 text-sm text-slate-300">
                 <div className="flex justify-between"><span>Quiz Name</span><span className="font-semibold text-white">Vocabulary Sprint</span></div>
                 <div className="flex justify-between"><span>Description</span><span className="font-semibold text-white">Word mastery in 15 mins</span></div>
@@ -328,7 +330,7 @@ const Quiz = () => {
 
             <div className="space-y-6">
               <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                <h3 className="text-xl font-semibold">10. Quiz Summary Sidebar</h3>
+                <h3 className="text-xl font-semibold">Quiz Summary Sidebar</h3>
                 <div className="mt-4 grid gap-3 text-sm text-slate-300">
                   <div className="flex justify-between rounded-2xl bg-slate-950/70 px-3 py-2"><span>Answered</span><span className="font-semibold text-white">{answeredCount}</span></div>
                   <div className="flex justify-between rounded-2xl bg-slate-950/70 px-3 py-2"><span>Skipped</span><span className="font-semibold text-white">{skippedCount}</span></div>
@@ -338,7 +340,7 @@ const Quiz = () => {
               </div>
 
               <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                <h3 className="text-xl font-semibold">5. Question Navigator</h3>
+                <h3 className="text-xl font-semibold">Question Navigator</h3>
                 <div className="mt-4 grid grid-cols-5 gap-2">
                   {quizQuestions.map((question, index) => (
                     <button
@@ -359,7 +361,7 @@ const Quiz = () => {
               </div>
 
               <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                <h3 className="text-xl font-semibold">8. Saved Words</h3>
+                <h3 className="text-xl font-semibold">Saved Words</h3>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {bookmarked.length > 0 ? bookmarked.map((word) => (
                     <span key={word} className="rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-sm text-amber-300">{word}</span>
@@ -403,7 +405,7 @@ const Quiz = () => {
                 </div>
 
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                  <h3 className="text-xl font-semibold">12. Weak Words</h3>
+                  <h3 className="text-xl font-semibold">Weak Words</h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {weakWords.length > 0 ? weakWords.map((word) => (
                       <span key={word} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-3 py-1 text-sm text-rose-300">❌ {word}</span>
@@ -412,7 +414,7 @@ const Quiz = () => {
                 </div>
 
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                  <h3 className="text-xl font-semibold">13. Word Explanation</h3>
+                  <h3 className="text-xl font-semibold">Word Explanation</h3>
                   <div className="mt-4 space-y-4">
                     {quizQuestions.filter((question) => answers[question._id] !== undefined && answers[question._id] !== question.correct).map((question) => (
                       <div key={question._id} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
@@ -436,7 +438,7 @@ const Quiz = () => {
 
               <div className="space-y-6">
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                  <h3 className="text-xl font-semibold">14. Leaderboard</h3>
+                  <h3 className="text-xl font-semibold">Leaderboard</h3>
                   <div className="mt-4 space-y-2 text-sm text-slate-300">
                     {[
                       ['1', 'Rahul', '98'],
@@ -452,7 +454,7 @@ const Quiz = () => {
                 </div>
 
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                  <h3 className="text-xl font-semibold">15. Achievement Badges</h3>
+                  <h3 className="text-xl font-semibold">Achievement Badges</h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {['🥇 Vocabulary Master', '🔥 7-Day Streak', '⚡ Speed Learner', '🎯 100% Accuracy'].map((badge) => (
                       <span key={badge} className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-sm text-cyan-300">{badge}</span>
@@ -461,7 +463,7 @@ const Quiz = () => {
                 </div>
 
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                  <h3 className="text-xl font-semibold">16. Quiz History</h3>
+                  <h3 className="text-xl font-semibold">Quiz History</h3>
                   <div className="mt-4 space-y-2 text-sm text-slate-300">
                     {[
                       ['05 Jul', '18/20', '90%', '6m'],
@@ -478,7 +480,7 @@ const Quiz = () => {
                 </div>
 
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                  <h3 className="text-xl font-semibold">17. Recommended Practice</h3>
+                  <h3 className="text-xl font-semibold">Recommended Practice</h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {['Practice Synonyms', 'Practice Antonyms', 'Learn Difficult Words', 'Retry Wrong Answers'].map((item) => (
                       <span key={item} className="rounded-full border border-slate-700 bg-slate-950/70 px-3 py-1 text-sm text-slate-300">{item}</span>
@@ -487,7 +489,7 @@ const Quiz = () => {
                 </div>
 
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                  <h3 className="text-xl font-semibold">18. Share Result</h3>
+                  <h3 className="text-xl font-semibold">Share Result</h3>
                   <div className="mt-4 flex flex-wrap gap-3">
                     <button className="rounded-full bg-cyan-500 px-4 py-2 font-semibold text-slate-950">Share Score</button>
                     <button className="rounded-full border border-slate-700 bg-slate-950/70 px-4 py-2 font-semibold text-slate-300">Download PDF</button>
