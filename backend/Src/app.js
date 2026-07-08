@@ -12,7 +12,7 @@ const connectToDb = require('./Db/db')
 
 const app = express()
 app.use(cors({
-    origin: 'https://vacabulary-vn6q-drab.vercel.app/',
+    origin: 'https://vacabulary-vn6q-drab.vercel.app',
     credentials: true
 }));
 
