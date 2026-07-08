@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { CgMathPlus } from "react-icons/cg";
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { submitQuiz } from '../Store/attempQuizAction'
 
 const Quiz = () => {
-
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [answers, setAnswers] = useState({})
-  const [count,setcount] =useState(0)
+  const [count, setcount] = useState(0)
   const [bookmarked, setBookmarked] = useState([])
   const [confidence, setConfidence] = useState({})
   const [started, setStarted] = useState(false)
@@ -20,7 +20,7 @@ const Quiz = () => {
   const quizQuestions = useSelector((state) => state.quizReducers.quizes?.data || [])
 
   console.log(quizQuestions)
-  const userData = useSelector((state)=>state.userReducers.user)
+  const userData = useSelector((state) => state.userReducers.user)
   useEffect(() => {
     if (quizQuestions.length > 0) {
       setStatuses(
@@ -95,16 +95,19 @@ const Quiz = () => {
       .map((question) => question.word)
   }, [answers, quizQuestions])
 
+
   const handleSelectOption = (optionIndex) => {
     setAnswers((prev) => ({ ...prev, [currentQuestion._id]: optionIndex }))
     setStatuses((prev) => ({ ...prev, [currentQuestion._id]: 'answered' }))
   }
 
+
+
   const goToNext = () => {
     if (currentIndex < quizQuestions.length - 1) {
       setCurrentIndex((prev) => prev + 1)
     } else {
-      setFinished(true)
+      handleSubmitQuiz();
     }
   }
 
@@ -158,23 +161,54 @@ const Quiz = () => {
     return 'bg-slate-700 text-slate-300'
   }
 
+  const handleSubmitQuiz = async () => {
+
+    const payload = {
+
+
+      quiz: currentQuestion._id,
+
+      totalQuestions: quizQuestions.length,
+
+      correctAnswers: resultSummary.correct,
+
+      wrongAnswers: resultSummary.wrong,
+
+      score: resultSummary.score,
+
+      timeTaken: resultSummary.timeUsed,
+
+      words: quizQuestions.map(q => q.vocab),
+      weakword: weakWords,
+      saveword: bookmarked
+
+
+    };
+    console.log(payload)
+    dispatch(submitQuiz(payload));
+    setFinished(true)
+  }
+
+  
+
   const addQuiz = () => {
     navigate('/quiz/create')
   }
+  console.log(currentQuestion)
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 px-4 relative py-8 md:px-8">
       {userData.role == "admin" ? (
         <>
-        <div className='absolute right-10 bottom-5 fixed'>
-        <button
-          onClick={() => setStarted(true)}
-          className="rounded-full  bg-cyan-500 p-2 text-white font-semibold text-slate-950 transition hover:bg-cyan-400"
-        >
-          <CgMathPlus size={25} onClick={addQuiz} />
-        </button>
-      </div>
-      </>):(<></>)}
+          <div className='absolute right-10 bottom-5 fixed'>
+            <button
+              onClick={() => setStarted(true)}
+              className="rounded-full  bg-cyan-500 p-2 text-white font-semibold text-slate-950 transition hover:bg-cyan-400"
+            >
+              <CgMathPlus size={25} onClick={addQuiz} />
+            </button>
+          </div>
+        </>) : (<></>)}
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-black/30">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -290,8 +324,8 @@ const Quiz = () => {
                         key={option._id}
                         onClick={() => handleSelectOption(index)}
                         className={`rounded-2xl border px-4 py-3 text-left transition ${selected
-                            ? "border-cyan-500 bg-cyan-500/10 text-cyan-200"
-                            : "border-slate-800 bg-slate-950/70 text-slate-300 hover:border-cyan-500/50"
+                          ? "border-cyan-500 bg-cyan-500/10 text-cyan-200"
+                          : "border-slate-800 bg-slate-950/70 text-slate-300 hover:border-cyan-500/50"
                           }`}
                       >
                         <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-sm font-semibold">
@@ -386,7 +420,7 @@ const Quiz = () => {
             <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
               <div className="space-y-6">
                 <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-                  <h3 className="text-xl font-semibold">11. Result Analytics</h3>
+                  <h3 className="text-xl font-semibold">Result Analytics</h3>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     {[
                       ['Total Score', `${resultSummary.score}/25`],
@@ -419,7 +453,7 @@ const Quiz = () => {
                     {quizQuestions.filter((question) => answers[question._id] !== undefined && answers[question._id] !== question.correct).map((question) => (
                       <div key={question._id} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
                         <p className="font-semibold text-white">{question.word}</p>
-                        <p className="mt-2 text-sm text-slate-400"><p>Definition: {question.definition}</p></p>
+                        <p className="mt-2 text-sm text-slate-400">Definition: {question.definition}</p>
                         <p className="text-sm text-slate-400">Synonyms:
                           {" "}
                           {question.synonyms.join(", ")}</p>

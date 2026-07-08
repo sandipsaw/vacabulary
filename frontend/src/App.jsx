@@ -6,6 +6,7 @@ import { asyncGetUser } from './Store/userAction'
 import { useEffect } from 'react'
 import { asyncGetAllWords } from './Store/vocabAction'
 import { asyncLoadQuiz } from './Store/quizAction'
+import {asyncGetWordoftheDay} from './Store/wordAction'
 const App = () => {
   const dispatch = useDispatch()
 
@@ -13,6 +14,7 @@ const App = () => {
     dispatch(asyncGetUser())
     dispatch(asyncGetAllWords())
     dispatch(asyncLoadQuiz())
+    dispatch(asyncGetWordoftheDay())
   },[])
   return (
     <div>

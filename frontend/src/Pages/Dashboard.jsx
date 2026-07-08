@@ -1,22 +1,68 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getDashboard } from '../Store/dashboardAction'
+import { FcBearish } from "react-icons/fc";
+import { FcPackage } from "react-icons/fc";
 import { Link } from 'react-router-dom'
 
+
 const Dashboard = () => {
-  const {user} = useSelector((state)=>state.userReducers)
-  if(!user){
+  useEffect(() => {
+    dispatch(getDashboard())
+  }, [])
+
+  const dispatch = useDispatch();
+  const dashboard = useSelector((state) => state.dashboardReducers.dashboard)
+  const progress = dashboard?.weeklyProgress
+  console.log(progress);
+
+  const scores = progress?.map(item => item.score);
+
+  const TotalWordLearned = dashboard?.stats?.totalWordsLearned
+  const TotalQuizAttempt = dashboard?.stats?.totalQuizAttempted 
+  const CurrentStreak = dashboard?.streak?.currentStreak
+ 
+  console.log(CurrentStreak)
+  console.log(TotalQuizAttempt)
+  console.log(TotalWordLearned)
+  const Accuracy = dashboard?.stats?.accuracy
+  console.log(dashboard);
+
+
+
+  const { user } = useSelector((state) => state.userReducers)
+  if (!user) {
     return <h1>Loading...</h1>
   }
   console.log(user.fullName)
 
   const stats = [
-    { label: 'Total Words Learned', value: '356' },
-    { label: 'Total Quizzes Attempted', value: '42' },
-    { label: 'Average Score', value: '86%' },
-    { label: 'Accuracy', value: '88%' },
-    { label: 'Current Streak', value: '14 Days' },
-    { label: 'Longest Streak', value: '21 Days' }
+    { label: 'Total Words Learned', value: `${dashboard?.stats?.totalWordsLearned || 0}` },
+    { label: 'Total Quizzes Attempted', value: `${dashboard?.stats?.totalQuizAttempted || 0}` },
+    { label: 'Average Score', value: `${dashboard?.stats?.averageScore || 0}` },
+    { label: 'Accuracy', value: `${dashboard?.stats?.accuracy || 0}` },
+    { label: 'Current Streak', value: `${dashboard?.streak?.currentStreak || 0}` },
+    { label: 'Longest Streak', value: `${dashboard?.streak?.longestStreak || 0}` }
   ]
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const todayData = progress?.find(
+    item => new Date(item.date).toISOString().split("T")[0] === today
+  );
+
+  const todayLearnedWords = todayData?.learnedWords || 0;
+
+  const goal = 10;
+
+  const progressPercentage = Math.min(
+    (todayLearnedWords / goal) * 100,
+    100
+  );
+
+  console.log(todayLearnedWords);
+  console.log(progressPercentage);
 
   const recentActivity = [
     '✔ Learned “Meticulous”',
@@ -24,9 +70,23 @@ const Dashboard = () => {
     '✔ Saved 5 Words'
   ]
 
-  const savedWords = ['Abandon', 'Resilient', 'Obsolete', 'Meticulous']
+  const weakWords = [
+    ...new Set(
+      dashboard?.quizHistory?.flatMap(item => item.weakword) || []
+    )
+  ];
+  console.log(weakWords)
 
-  const achievements = ['Vocabulary Beginner', 'Quiz Master', '7 Day Streak', '100 Words Learned']
+  const savedWords = [
+    ...new Set(
+      dashboard?.quizHistory?.flatMap(item => item.saveword) || []
+    )
+  ];
+  console.log(savedWords)
+
+  // const achievements = ['Vocabulary Beginner', 'Quiz Master', '7 Day Streak', '100 Words Learned']
+  const achievement = dashboard?.achievements
+  
 
   const quizHistory = [
     { name: 'Synonym Quiz', score: '18/20', date: 'Today' },
@@ -69,18 +129,18 @@ const Dashboard = () => {
                 <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
                   <p className="text-sm text-slate-400">Weekly Progress</p>
                   <div className="mt-4 flex h-32 items-end gap-2">
-                    {[45, 70, 55, 80, 90, 72, 88].map((value, index) => (
+                    {scores?.map((value, index) => (
                       <div key={index} className="flex-1 rounded-t-xl bg-gradient-to-t from-cyan-500 to-indigo-400" style={{ height: `${value}%` }} />
                     ))}
                   </div>
                 </div>
                 <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
                   <p className="text-sm text-slate-400">Today's Goal</p>
-                  <p className="mt-3 text-lg font-semibold text-white">Learn 10 words • Quiz 1 set</p>
+                  <p className="mt-3 text-lg font-semibold text-white">Learn 10 words</p>
                   <div className="mt-4 h-3 rounded-full bg-slate-800">
-                    <div className="h-3 w-[80%] rounded-full bg-cyan-500" />
+                    <div className="h-3 rounded-full bg-cyan-500" style={{ width: `${progressPercentage}%` }} />
                   </div>
-                  <p className="mt-2 text-sm text-cyan-300">Progress 80%</p>
+                  <p className="mt-2 text-sm text-cyan-300">Progress {progressPercentage.toFixed(0)}%</p>
                 </div>
               </div>
             </div>
@@ -108,10 +168,18 @@ const Dashboard = () => {
             </div>
 
             <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
-              <h2 className="text-xl font-semibold text-white">⭐ Saved Words</h2>
+              <h2 className="text-xl font-semibold text-white flex items-center gap-2"><FcPackage size={24} /> <span>Saved Words</span></h2>
               <div className="mt-4 flex flex-wrap gap-2">
                 {savedWords.map((word) => (
                   <span key={word} className="rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-sm text-amber-300">{word}</span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
+              <h2 className="text-xl font-semibold text-white flex items-center gap-2"><FcBearish /> <span>Weak Words</span></h2>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {weakWords.map((word) => (
+                  <span key={word} className="rounded-full border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">{word}</span>
                 ))}
               </div>
             </div>
@@ -119,7 +187,7 @@ const Dashboard = () => {
             <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
               <h2 className="text-xl font-semibold text-white">🏆 Achievements</h2>
               <div className="mt-4 flex flex-wrap gap-2">
-                {achievements.map((badge) => (
+                {achievement?.map((badge) => (
                   <span key={badge} className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300">{badge}</span>
                 ))}
               </div>

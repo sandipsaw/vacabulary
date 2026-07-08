@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import {asyncGetWordoftheDay} from '../Store/wordAction'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 const features = [
   {
     title: '1000+ English Words',
@@ -81,9 +85,18 @@ const testimonials = [
 ]
 
 const Home = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const startQuiz = () =>{
     Navigate('/quiz')
   }
+  useEffect(()=>{
+    dispatch(asyncGetWordoftheDay())
+  },[])
+
+  const TodayWord = useSelector((state)=>state.wordoftheDayReducers?.wordoftheDay)
+  console.log(TodayWord)
+  //wordoftheDay
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <section id="home" className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.28),_transparent_35%),linear-gradient(135deg,_#111827,_#1f2937)]">
@@ -104,12 +117,12 @@ const Home = () => {
                 <a href="#categories" className="rounded-full bg-indigo-500 px-5 py-3 font-semibold text-white transition hover:bg-indigo-400">
                   🚀 Get Started
                 </a>
-                <a href="#word-of-the-day" className="rounded-full border border-slate-700 bg-slate-900/70 px-5 py-3 font-semibold text-slate-100 transition hover:border-indigo-400 hover:text-indigo-200">
+                <button onClick={()=>navigate('/vocab')} className="rounded-full border border-slate-700 bg-slate-900/70 px-5 py-3 font-semibold text-slate-100 transition hover:border-indigo-400 hover:text-indigo-200">
                   📖 Explore Words
-                </a>
-                <a href="#challenge" className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-5 py-3 font-semibold text-emerald-200 transition hover:bg-emerald-500/20">
+                </button>
+                <button onClick={()=>navigate('/quiz')} className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-5 py-3 font-semibold text-emerald-200 transition hover:bg-emerald-500/20">
                   🎯 Take Quiz
-                </a>
+                </button>
               </div>
             </div>
 
@@ -173,11 +186,11 @@ const Home = () => {
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-3xl border border-slate-800 bg-gradient-to-br from-indigo-600/20 to-slate-900 p-8">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-300">Word of the Day</p>
-            <h2 className="mt-3 text-3xl font-bold text-white">Eloquent</h2>
-            <p className="mt-4 text-slate-300"><span className="font-semibold text-white">Meaning:</span> Fluent and persuasive in speaking or writing.</p>
+            <h2 className="mt-3 text-3xl font-bold text-white">{TodayWord?.word}</h2>
+            <p className="mt-4 text-slate-300"><span className="font-semibold text-white">Meaning:</span> {TodayWord?.definition}</p>
             <p className="mt-2 text-slate-300"><span className="font-semibold text-white">Pronunciation:</span> /ˈeləkwənt/</p>
-            <p className="mt-2 text-slate-300"><span className="font-semibold text-white">Example:</span> She gave an eloquent speech during the ceremony.</p>
-            <p className="mt-4 text-slate-300"><span className="font-semibold text-white">Synonyms:</span> Expressive, Fluent, Persuasive</p>
+            <p className="mt-2 text-slate-300"><span className="font-semibold text-white">Example:</span> {TodayWord?.examples}</p>
+            <p className="mt-4 text-slate-300"><span className="font-semibold text-white">Synonyms:</span> {TodayWord?.synonyms}</p>
             <a href="#challenge" className="mt-6 inline-flex rounded-full bg-white px-5 py-3 font-semibold text-slate-900 transition hover:bg-slate-100">
               Learn More
             </a>

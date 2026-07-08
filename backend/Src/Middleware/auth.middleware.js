@@ -1,23 +1,43 @@
-const jwt = require('jsonwebtoken');
-const userModel = require('../Model/userModel');
+const jwt = require("jsonwebtoken");
 
-const authMiddlewares = async (req,res,next) => {
-    const {token}= req.cookies
-    
-    if (!token) {
-        return res.status(401).json({ message: "invalid token" })
-    }
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = decoded
-        if (!user) {
-            return res.status(401).json({ message: "unauthorized" });
+const authMiddlewares = (req, res, next) => {
+
+    let token = req.cookies?.token;
+
+    // If cookie is not present, check Authorization header
+    if (!token && req.headers.authorization) {
+
+        const authHeader = req.headers.authorization;
+
+        if (authHeader.startsWith("Bearer ")) {
+            token = authHeader.split(" ")[1];
         }
-        req.user = user
-        next();
-    } catch (error) {
-        return res.status(401).json({ message: "unauthorized" });
     }
-}
 
-module.exports = {authMiddlewares}
+    if (!token) {
+        return res.status(401).json({
+            message: "Invalid token"
+        });
+    }
+
+    try {
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        req.user = decoded;
+        console.log(req.user);
+        
+
+        next();
+
+    } catch (error) {
+
+        return res.status(401).json({
+            message: "Unauthorized"
+        });
+
+    }
+
+};
+
+module.exports = { authMiddlewares };

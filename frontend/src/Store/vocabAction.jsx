@@ -27,8 +27,10 @@ export const asyncGetWords = (letter) => async (dispatch)=>{
     const res = await axios.get(`/api/vocab/getwords/${letter}`)
     console.log(res.data)
     dispatch(loadwords(res.data.words))
+    return res.data.words
   } catch (error) {
     console.error(error.response?.data || error.message);
+    return []
   }
 }  
 

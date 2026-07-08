@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 import {asyncGetWords} from '../Store/vocabAction'
+import { BiAddToQueue } from "react-icons/bi";
 import { useSelector } from "react-redux";
 const Vocab = () => {
   
@@ -16,8 +17,12 @@ const Vocab = () => {
 }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      {userData.role == "admin" ? (<><NavLink className="w-200 h-100 p-3 m-4 rounded  font-bold bg-slate-900/80 hover:bg-indigo-600 " to="/vocab/create" >  Create Vocab</NavLink></>): (<></>)}
+    <div className="min-h-screen bg-slate-950 text-white p-6 relative">
+      {userData.role == "admin" ? (<>
+      <div className="absolute lg:block hidden lg:top-10 lg:right-10"><NavLink className="w-200 h-100 p-3 m-4 rounded-full px-5 border-1  font-bold text-indigo-600 bg-slate-900/80 hover:bg-indigo-600  hover:text-white" to="/vocab/create" >  Create Vocab</NavLink></div>
+      <div className="fixed lg:hidden block bottom-10 right-5"><NavLink className="w-200 h-100 p-3 m-4 rounded-full px-5 border-1  font-bold text-indigo-600 bg-slate-900/80 hover:bg-indigo-600  hover:text-white" to="/vocab/create" >Create Vocab </NavLink></div>
+      </>
+    ): (<></>)}
       <div className="mx-auto max-w-7xl">
 
         

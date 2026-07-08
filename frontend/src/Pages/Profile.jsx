@@ -2,15 +2,48 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { asyncGetUser } from '../Store/userAction'
+import { getDashboard } from '../Store/dashboardAction'
 import { useEffect } from 'react'
 const Profile = () => {
 
 
-  const { user } = useSelector((state) => state.userReducers);
+  useEffect(() => {
+    dispatch(getDashboard())
+  }, [])
+
+  const dispatch = useDispatch();
+  const dashboard = useSelector((state) => state.dashboardReducers.dashboard)
+
+
+  const { user } = useSelector((state) => state.userReducers)
+  if (!user) {
+    return <h1>Loading...</h1>
+  }
+  console.log(user.fullName)
+
+  const stats = [
+    { label: 'Words Learned', value: `${dashboard?.stats?.totalWordsLearned || 0}` },
+    { label: 'Quizzes Attempted', value: `${dashboard?.stats?.totalQuizAttempted || 0}` },
+    // { label: 'Average Score', value: `${dashboard?.stats?.averageScore || 0}` },
+    { label: 'Accuracy', value: `${dashboard?.stats?.accuracy || 0}` },
+    // { label: 'Current Streak', value: `${dashboard?.streak?.currentStreak || 0}` },
+    { label: 'Best Streak', value: `${dashboard?.streak?.longestStreak || 0}` }
+  ]
+  const date = user.createdAt
+
+  const formattedDate = new Date(date).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  console.log(formattedDate);
+
 
   if (!user) {
     return <h1>Loading...</h1>;
   }
+
   // const val =Math.floor(1000 + Math.random() * 9000);
 
 
@@ -48,11 +81,11 @@ const Profile = () => {
               </div>
               <div className="flex items-center justify-between rounded-2xl bg-slate-900/70 px-4 py-3">
                 <span>Username</span>
-                <span className="font-semibold text-white">{user.fullName.toLowerCase().replace(" ","_")}</span>
+                <span className="font-semibold text-white">{user.fullName.toLowerCase().replace(" ", "_")}</span>
               </div>
               <div className="flex items-center justify-between rounded-2xl bg-slate-900/70 px-4 py-3">
                 <span>Joined Date</span>
-                <span className="font-semibold text-white">02 Jan 2026</span>
+                <span className="font-semibold text-white">{formattedDate}</span>
               </div>
               <div className="flex items-center justify-between rounded-2xl bg-slate-900/70 px-4 py-3">
                 <span>Level</span>
@@ -60,23 +93,18 @@ const Profile = () => {
               </div>
             </div>
 
-            <button className="mt-6 rounded-full bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400">
+            {/* <button className="mt-6 rounded-full bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400">
               Edit Profile
-            </button>
+            </button> */}
           </div>
 
           <div className="rounded-3xl border border-slate-800 bg-slate-950/70 p-6">
             <h2 className="text-xl font-semibold text-white">Learning Snapshot</h2>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {[
-                ['Words Learned', '356'],
-                ['Quizzes Attempted', '42'],
-                ['Accuracy', '88%'],
-                ['Best Streak', '14 days']
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-                  <p className="text-sm text-slate-400">{label}</p>
-                  <p className="mt-1 text-xl font-semibold text-white">{value}</p>
+              {stats.map((stat) => (
+                <div key={stat.label} className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+                  <p className="text-sm text-slate-400">{stat.label}</p>
+                  <p className="mt-1 text-xl font-semibold text-white">{stat.value}</p>
                 </div>
               ))}
             </div>

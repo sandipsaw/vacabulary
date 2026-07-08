@@ -31,7 +31,7 @@ const Nav = () => {
   const logoutHandler = async () => {
     dispatch(asyncLogOutUser());
     toast.success("User logout successfully");
-    navigate('/');
+    navigate('/login');
   };
 
   const [open, setOpen] = useState(false)
@@ -86,9 +86,9 @@ const Nav = () => {
 
             {data.length != 0 ? (
             <>
-              <NavLink onClick={logoutHandler}  className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} >Logut</NavLink>
+              <NavLink onClick={() => setOpen(!open)} onClick={logoutHandler}  className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} >Logut</NavLink>
               
-              <NavLink className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/dashboard'>Dashboard</NavLink>
+              <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/dashboard'>Dashboard</NavLink>
             </>) :
             (<>
               <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/login'>login</NavLink>

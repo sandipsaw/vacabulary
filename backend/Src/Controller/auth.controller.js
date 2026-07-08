@@ -31,7 +31,8 @@ const registerUser = async (req, res) => {
         role: user.role,
         mobile: user.mobile,
         premium: user.premium,
-        propremium: user.propremium
+        propremium: user.propremium,
+        createdAt: user.createdAt
     }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     res.cookie('token', token, {
@@ -74,8 +75,8 @@ const loginUser = async (req, res) => {
         mobile: user.mobile,
         role: user.role,
         premium: user.premium,
-        propremium: user.propremium
-
+        propremium: user.propremium,
+        createdAt: user.createdAt
     }, process.env.JWT_SECRET, { expiresIn: '1d' })
 
     res.cookie('token', token, {
