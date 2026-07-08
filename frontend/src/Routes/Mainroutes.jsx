@@ -1,11 +1,11 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Home from '../Pages/Home'
+import Home from '../Pages/Home.jsx'
 // import About from '../Pages/About'
-import Login from '../Auth/Login'
-import Register from '../Auth/Register'
+import Login from '../Auth/Login.jsx'
+import Register from '../Auth/Register.jsx'
 import  Vocab  from '../Pages/Vocab.jsx'
-import VocabCreate from '../Pages/vocab/VocabCreate'
+import VocabCreate from '../Pages/vocab/VocabCreate.jsx'
 import WordDetail from '../Component/WordDetail.jsx'
 import Word from '../Component/Word.jsx'
 import Section from '../Component/Section.jsx'
@@ -14,7 +14,7 @@ import Quiz from '../Pages/Quiz.jsx'
 import Dashboard from '../Pages/Dashboard.jsx'
 import Profile from '../Pages/Profile.jsx'
 
-const Mainroute = () => {
+const Mainroutes = () => {
   return (
     <Routes>
         <Route path='/' element={<Home />} />

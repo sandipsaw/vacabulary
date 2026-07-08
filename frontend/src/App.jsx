@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from './Component/Nav'
-import MainRoutes from './Routes/Mainrouts'
+import MainRoutes from './Routes/Mainroutes'
 import { useDispatch } from 'react-redux'
 import { asyncGetUser } from './Store/userAction'
 import { useEffect } from 'react'
