@@ -11,7 +11,7 @@ const links = [
   { label: 'Dashboard', to: '/dashboard', auth: true },
   { label: 'Vocab', to: '/vocab' },
   { label: 'Quiz', to: '/quiz' },
-  { label: 'About', to: '/about' },
+  // { label: 'About', to: '/about' },
   { label: 'Login', to: '/login', guest: true },
   { label: 'Sign Up', to: '/register', guest: true },
 ]
@@ -51,7 +51,7 @@ const Nav = () => {
           <NavLink className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/'>Home</NavLink>
           <NavLink className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full  " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/vocab'>Vocab</NavLink>
           <NavLink className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/quiz'>Quizzes</NavLink>
-          <NavLink className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/about'>About</NavLink>
+          {/* <NavLink className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/about'>About</NavLink> */}
 
           {data.length != 0 ? (
             <>
@@ -82,7 +82,7 @@ const Nav = () => {
             <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/'>Home</NavLink>
           <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full  " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/vocab'>Vocab</NavLink>
           <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/quiz'>Quizzes</NavLink>
-          <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/about'>About</NavLink>
+          {/* <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/about'>About</NavLink> */}
 
             {data.length != 0 ? (
             <>

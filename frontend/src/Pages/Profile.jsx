@@ -19,7 +19,7 @@ const Profile = () => {
   if (!user) {
     return <h1>Loading...</h1>
   }
-  console.log(user.fullName)
+  // console.log(user.fullName)
 
   const stats = [
     { label: 'Words Learned', value: `${dashboard?.stats?.totalWordsLearned || 0}` },

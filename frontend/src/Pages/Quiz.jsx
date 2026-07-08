@@ -184,7 +184,7 @@ const Quiz = () => {
 
 
     };
-    console.log(payload)
+    // console.log(payload)
     dispatch(submitQuiz(payload));
     setFinished(true)
   }

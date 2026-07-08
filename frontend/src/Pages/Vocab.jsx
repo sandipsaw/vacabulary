@@ -9,10 +9,10 @@ const Vocab = () => {
   
   const dispatch=useDispatch()
   const userData = useSelector((state)=>state.userReducers.user)
-  console.log(userData);
+  // console.log(userData);
   const wordHandler = (letter)=>{
-    console.log(letter);
-    console.log("wordhandler");
+    // console.log(letter);
+    // console.log("wordhandler");
     dispatch(asyncGetWords(letter))
 }
 

@@ -4,6 +4,10 @@ import { NavLink } from 'react-router-dom'
 import {asyncGetWordoftheDay} from '../Store/wordAction'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import image from '../assets/sandy.png'
+import bgImage from '../assets/sandy1.png'
+import bgImage2 from '../assets/sandy2.png'
+import bgImage3 from '../assets/sandy3.png'
 const features = [
   {
     title: '1000+ English Words',
@@ -95,13 +99,13 @@ const Home = () => {
   },[])
 
   const TodayWord = useSelector((state)=>state.wordoftheDayReducers?.wordoftheDay)
-  console.log(TodayWord)
+  // console.log(TodayWord)
   //wordoftheDay
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <section id="home" className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.28),_transparent_35%),linear-gradient(135deg,_#111827,_#1f2937)]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,_rgba(16,185,129,0.16),_transparent_25%)]" />
-        <div className="relative mx-auto flex max-w-7xl flex-col px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <section id="home" className=" relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.28),_transparent_35%),linear-gradient(135deg,_#111827,_#1f2937)]">
+        <div className=" absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,_rgba(16,185,129,0.16),_transparent_25%)]" />
+        <div className="relative -mt-15 mx-auto flex max-w-7xl flex-col px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
           <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <span className="inline-flex rounded-full border border-indigo-400/40 bg-indigo-500/10 px-3 py-1 text-sm font-semibold tracking-[0.25em] text-indigo-200 uppercase">
@@ -125,8 +129,11 @@ const Home = () => {
                 </button>
               </div>
             </div>
+            <div>
+              <img src={image}/>
+            </div>
 
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-xl">
+            {/* <div className="rounded-3xl border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-xl">
               <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-6">
                 <p className="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-200">Today&apos;s Focus</p>
                 <h2 className="mt-3 text-2xl font-bold text-white">Master words that make you sound sharper</h2>
@@ -141,7 +148,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -196,7 +203,8 @@ const Home = () => {
             </a>
           </div>
 
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8">
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8 bg-no-repeat lg:bg-top bg-center flex flex-col " style={{
+        backgroundImage: `url(${bgImage})` ,backgroundSize: "350px",}}>
             <h3 className="text-2xl font-semibold text-white">Why it matters</h3>
             <p className="mt-4 text-lg leading-8 text-slate-400">
               Use powerful words to sound more confident in interviews, essays, and everyday conversations.
@@ -259,7 +267,8 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-800 bg-gradient-to-br from-emerald-500/10 to-slate-900 p-8">
+          <div className="rounded-3xl border border-slate-800 bg-gradient-to-br from-emerald-500/10 to-slate-900 p-8 bg-no-repeat bg-center" style={{
+        backgroundImage: `url(${bgImage3})` ,backgroundSize: "400px"}}>
             <h3 className="text-2xl font-semibold text-white">Stay consistent and build confidence</h3>
             <p className="mt-4 text-lg leading-8 text-slate-300">
               A simple routine of reading, listening, practicing, and revising makes vocabulary learning feel effortless.

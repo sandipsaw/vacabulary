@@ -15,7 +15,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const dashboard = useSelector((state) => state.dashboardReducers.dashboard)
   const progress = dashboard?.weeklyProgress
-  console.log(progress);
+  // console.log(progress);
 
   const scores = progress?.map(item => item.score);
 
@@ -23,11 +23,11 @@ const Dashboard = () => {
   const TotalQuizAttempt = dashboard?.stats?.totalQuizAttempted 
   const CurrentStreak = dashboard?.streak?.currentStreak
  
-  console.log(CurrentStreak)
-  console.log(TotalQuizAttempt)
-  console.log(TotalWordLearned)
+  // console.log(CurrentStreak)
+  // console.log(TotalQuizAttempt)
+  // console.log(TotalWordLearned)
   const Accuracy = dashboard?.stats?.accuracy
-  console.log(dashboard);
+  // console.log(dashboard);
 
 
 
@@ -35,7 +35,7 @@ const Dashboard = () => {
   if (!user) {
     return <h1>Loading...</h1>
   }
-  console.log(user.fullName)
+  // console.log(user.fullName)
 
   const stats = [
     { label: 'Total Words Learned', value: `${dashboard?.stats?.totalWordsLearned || 0}` },
@@ -61,8 +61,8 @@ const Dashboard = () => {
     100
   );
 
-  console.log(todayLearnedWords);
-  console.log(progressPercentage);
+  // console.log(todayLearnedWords);
+  // console.log(progressPercentage);
 
   const recentActivity = [
     '✔ Learned “Meticulous”',
@@ -75,14 +75,14 @@ const Dashboard = () => {
       dashboard?.quizHistory?.flatMap(item => item.weakword) || []
     )
   ];
-  console.log(weakWords)
+  // console.log(weakWords)
 
   const savedWords = [
     ...new Set(
       dashboard?.quizHistory?.flatMap(item => item.saveword) || []
     )
   ];
-  console.log(savedWords)
+  // console.log(savedWords)
 
   // const achievements = ['Vocabulary Beginner', 'Quiz Master', '7 Day Streak', '100 Words Learned']
   const achievement = dashboard?.achievements
