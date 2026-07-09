@@ -4,6 +4,7 @@ import {loaduser} from '../Store/userSlice'
 export const asyncRegisterUser = (userData) => async(dispatch,getState)=>{
     try{
         const res = await axios.post('/api/auth/register',userData)
+        console.log(res)
         dispatch(loaduser(res.data.user))
 
     }catch(error){

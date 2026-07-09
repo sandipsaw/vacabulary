@@ -11,8 +11,22 @@ const cors = require('cors')
 const connectToDb = require('./Db/db')
 
 const app = express()
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://vacabulary-vn6q-drab.vercel.app"
+];
 app.use(cors({
-    origin: 'https://vacabulary-vn6q-drab.vercel.app',
+    origin: function (origin, callback) {
+
+        // Postman ya mobile apps ke liye
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true
 }));
 
@@ -20,12 +34,12 @@ connectToDb()
 app.use(cookieParser())
 app.use(express.json())
 
-app.use('/api/auth',authRoutes)
-app.use('/api/vocab',vocabRoutes)
-app.use('/api/quiz',quizRoutes)
-app.use('/api/user-progress',userProgessRoutes)
-app.use('/api/quiz-attempt',quizAttemptRoutes)
-app.use('/api/word',wordoftheDayRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/vocab', vocabRoutes)
+app.use('/api/quiz', quizRoutes)
+app.use('/api/user-progress', userProgessRoutes)
+app.use('/api/quiz-attempt', quizAttemptRoutes)
+app.use('/api/word', wordoftheDayRoutes)
 
 
 module.exports = app
