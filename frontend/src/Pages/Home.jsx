@@ -111,6 +111,9 @@ const Home = () => {
               <span className="inline-flex rounded-full border border-indigo-400/40 bg-indigo-500/10 px-3 py-1 text-sm font-semibold tracking-[0.25em] text-indigo-200 uppercase">
                 Smart English Vocabulary Studio
               </span>
+              <div className='lg:hidden block'>
+              <img src={image}/>
+            </div>
               <h1 className="mt-6 text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
                 Expand Your Vocabulary. Speak with Confidence.
               </h1>
@@ -129,7 +132,7 @@ const Home = () => {
                 </button>
               </div>
             </div>
-            <div>
+            <div className='lg:block hidden'>
               <img src={image}/>
             </div>
 
@@ -174,7 +177,7 @@ const Home = () => {
       </section>
 
       <section id="categories" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-8 shadow-xl shadow-black/20">
+        <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-4 sm:p-8 lg:p-8 shadow-xl shadow-black/20">
           <div className="mb-8 max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-300">Categories</p>
             <h2 className="mt-3 text-3xl font-bold text-white">Learn by Category</h2>
@@ -206,7 +209,7 @@ const Home = () => {
           <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8 bg-no-repeat lg:bg-top bg-center flex flex-col " style={{
         backgroundImage: `url(${bgImage})` ,backgroundSize: "350px",}}>
             <h3 className="text-2xl font-semibold text-white">Why it matters</h3>
-            <p className="mt-4 text-lg leading-8 text-slate-400">
+            <p className="mt-4 text-lg leading-8 text-[#D1D5DB]">
               Use powerful words to sound more confident in interviews, essays, and everyday conversations.
             </p>
           </div>
@@ -237,7 +240,7 @@ const Home = () => {
       </section>
 
       <section id="stats" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-800 p-8">
+        <div className="rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-800 p-4 sm:p-8 lg:p-8">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-300">Trusted by Learners</p>
           <div className="mt-6 grid gap-6 md:grid-cols-4">
             {stats.map((stat) => (
@@ -252,7 +255,7 @@ const Home = () => {
 
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-8">
+          <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-4 lg:p-8">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-300">Learning Process</p>
             <h2 className="mt-3 text-3xl font-bold text-white">How It Works</h2>
             <div className="mt-6 space-y-4">

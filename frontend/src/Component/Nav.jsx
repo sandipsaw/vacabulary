@@ -20,7 +20,7 @@ const Nav = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const data = useSelector((state) => state.userReducers.user?.fullName) || [] ;
+  const data = useSelector((state) => state.userReducers.user?.fullName) || [];
   console.log(data);
 
   useEffect(() => {
@@ -55,9 +55,9 @@ const Nav = () => {
 
           {data.length != 0 ? (
             <>
-              
+
               <NavLink className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/dashboard'>Dashboard</NavLink>
-              <NavLink onClick={logoutHandler}  className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/'>Logut</NavLink>
+              <NavLink onClick={logoutHandler} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/'>Logut</NavLink>
             </>) :
             (<>
               <NavLink className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/login'>login</NavLink>
@@ -77,23 +77,23 @@ const Nav = () => {
       </div>
 
       {open && (
-        <div className="border-t border-slate-800 bg-slate-950 px-4 py-4 lg:hidden">
+        <div className="border-t border-slate-800 bg-slate-950 px-4 py-4 lg:hidden min-w-full min-h-screen">
           <div className="flex flex-col gap-2">
             <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/'>Home</NavLink>
-          <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full  " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/vocab'>Vocab</NavLink>
-          <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/quiz'>Quizzes</NavLink>
-          {/* <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/about'>About</NavLink> */}
+            <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full  " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/vocab'>Vocab</NavLink>
+            <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/quiz'>Quizzes</NavLink>
+            {/* <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/about'>About</NavLink> */}
 
             {data.length != 0 ? (
-            <>
-              <NavLink onClick={() => setOpen(!open)} onClick={logoutHandler}  className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} >Logut</NavLink>
-              
-              <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/dashboard'>Dashboard</NavLink>
-            </>) :
-            (<>
-              <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/login'>login</NavLink>
-              <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/register'>Register</NavLink>
-            </>)}
+              <>
+                <NavLink onClick={() => setOpen(!open)} onClick={logoutHandler} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} >Logut</NavLink>
+
+                <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/dashboard'>Dashboard</NavLink>
+              </>) :
+              (<>
+                <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/login'>login</NavLink>
+                <NavLink onClick={() => setOpen(!open)} className={(e) => e.isActive ? "bg-indigo-500/15 text-white px-3 py-2 rounded-full " : "text-slate-300 hover:bg-slate-800 hover:text-white px-3 py-2 rounded-full"} to='/register'>Register</NavLink>
+              </>)}
 
           </div>
         </div>
