@@ -106,7 +106,7 @@ const Section = () => {
 
                     </div>
                     <p className="mt-1 text-sm text-slate-400">
-                      {word.definition}
+                      {word.definition? `${word.definition.slice(0, 32)}...`: "Definition not available yet."}
                     </p>
                   </div>
 

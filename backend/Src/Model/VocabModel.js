@@ -53,10 +53,8 @@ const vocabSchema = new mongoose.Schema(
     },
 
     exams: {
-      type: String,
-    },
-    exams: {
-      type: String,
+      type: [String],
+      default:[]
     },
   }, { timestamps: true })
 

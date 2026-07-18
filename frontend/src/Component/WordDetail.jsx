@@ -22,6 +22,7 @@ const WordDetail = () => {
   }, [dispatch, id]);
 
   const word = useSelector((state) => state.vocabReducers.SingleWord);
+  console.log(word)
 
   const renderTagList = (items, fallback, baseClass) => {
     if (!items || (Array.isArray(items) && items.length === 0)) {
@@ -88,7 +89,7 @@ const WordDetail = () => {
                 {word.pos || "Part of speech not available"}
               </p>
               <p className="mt-4 max-w-xl text-base leading-7 text-slate-400">
-                {word.definition || "A clear and concise definition will appear here once available."}
+                {/* {word.definition || "A clear and concise definition will appear here once available."} */}
               </p>
             </div>
 
@@ -126,20 +127,14 @@ const WordDetail = () => {
                 <p className="text-sm text-slate-400">See it in action</p>
               </div>
             </div>
-            {Array.isArray(word.examples) && word.examples.length > 0 ? (
-              <ul className="space-y-3">
-                {word.examples.map((item, index) => (
-                  <li
-                    key={`${item}-${index}`}
-                    className="rounded-2xl border border-white/10 bg-slate-800/70 p-4 text-sm leading-7 text-slate-300"
-                  >
-                    “{item}”
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-slate-400">Example usage will appear here soon.</p>
-            )}
+            {word?.examples
+              ?.split(".")
+              .filter(sentence => sentence.trim() !== "")
+              .map((sentence, index) => (
+                <p key={index}>
+                  {sentence.trim()}.
+                </p>
+              ))}
           </section>
         </div>
 

@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { asyncCreateWord } from "../../Store/vocabAction";
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -11,8 +11,8 @@ const VocabCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  
-  
+
+
   const {
     register,
     handleSubmit,
@@ -20,13 +20,27 @@ const VocabCreate = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    data.antonyms = data.antonyms
+      .split(",")
+      .map(item => item.trim())
+      .filter(Boolean);
+
+    data.synonyms = data.synonyms
+      .split(",")
+      .map(item => item.trim())
+      .filter(Boolean);
+    data.exams = data.exams
+      .split(",")
+      .map(item => item.trim())
+      .filter(Boolean);
+
     console.log(data);
     dispatch(asyncCreateWord(data));
     toast.success("Vocab word Created Sucessfully")
     navigate('/vocab')
   };
 
-  return ( 
+  return (
     <div className="min-h-screen bg-slate-950 text-white py-12 px-4">
       <div className="mx-auto max-w-4xl">
 
@@ -74,9 +88,9 @@ const VocabCreate = () => {
               </p>
             </div>
 
-                {/*part of speech */}
+            {/*part of speech */}
 
-                <div>
+            <div>
               <label className="mb-2 block text-sm font-medium text-slate-300">
                 Part of speech
               </label>
@@ -93,11 +107,11 @@ const VocabCreate = () => {
                 {errors.pos?.message}
               </p>
             </div>
-                  {/* definition */}
+            {/* definition */}
 
-                  <div>
+            <div>
               <label className="mb-2 block text-sm font-medium text-slate-300">
-              Definition
+                Definition
               </label>
 
               <input
@@ -112,8 +126,8 @@ const VocabCreate = () => {
                 {errors.definition?.message}
               </p>
             </div>
-                  
-            
+
+
 
 
 
@@ -186,6 +200,17 @@ const VocabCreate = () => {
                 accept="image/*"
                 {...register("image")}
                 className="w-full rounded-xl border border-dashed border-slate-700 bg-slate-900 p-4 file:mr-4 file:rounded-lg file:border-0 file:bg-indigo-600 file:px-4 file:py-2 file:text-white hover:file:bg-indigo-500"
+              />
+            </div>
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+                Exams
+              </label>
+
+              <input
+                {...register("exams")}
+                placeholder="Happy, Cheerful, Joyful"
+                className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-indigo-500"
               />
             </div>
 
